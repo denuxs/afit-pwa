@@ -20,20 +20,13 @@ import { UserService } from 'app/services';
 import { User } from 'app/domain';
 
 import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-profile-edit',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    ToggleButtonModule,
-    ToastModule,
-    InputTextModule,
-  ],
-  providers: [MessageService],
+  imports: [ReactiveFormsModule, ToggleButtonModule, InputTextModule],
   templateUrl: './profile-edit.component.html',
   styleUrl: './profile-edit.component.scss',
 })
@@ -42,7 +35,6 @@ export class ProfileEditComponent implements OnInit {
   private readonly messaging;
   private readonly _deviceService = inject(DeviceDetectorService);
   private readonly _unsubscribeAll: Subject<any> = new Subject<any>();
-  private readonly _messageService = inject(MessageService);
 
   private readonly _userService = inject(UserService);
 
@@ -55,7 +47,7 @@ export class ProfileEditComponent implements OnInit {
 
   user!: User;
 
-  constructor() {
+  constructor(private ref: DynamicDialogRef) {
     const app = initializeApp(environment.firebaseConfig);
     this.messaging = getMessaging(app);
   }
@@ -108,14 +100,14 @@ export class ProfileEditComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           this._userService.user = response;
-          this._messageService.add({
-            severity: 'success',
-            summary: 'Actualizar',
-            detail: 'Perfil actualizado con éxito',
-            life: 3000,
-          });
+
+          this.close();
         },
       });
+  }
+
+  close() {
+    this.ref.close();
   }
 
   requestPermission() {

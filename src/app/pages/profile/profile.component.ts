@@ -10,7 +10,6 @@ import { NotificationService, UserService } from 'app/services';
 import { AuthService } from 'app/core/auth/auth.service';
 
 import { Notification, User } from 'app/domain';
-import { NotificationsComponent } from '../notifications/notifications.component';
 
 import { environment } from '../../../environments/environment';
 
@@ -20,17 +19,18 @@ import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { UploadImageComponent } from 'app/components/upload-image/upload-image.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 
+import {
+  DialogService,
+  DynamicDialog,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [
-    ImageModule,
-    ToastModule,
-    DialogModule,
-    NotificationsComponent,
-    ProfileEditComponent,
-    UploadImageComponent,
-  ],
+  imports: [ImageModule, ToastModule, DialogModule, UploadImageComponent],
+  providers: [DialogService, MessageService],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -39,8 +39,12 @@ export class ProfileComponent implements OnInit {
   private readonly _userService = inject(UserService);
   private readonly _authService = inject(AuthService);
   private readonly _notificationService = inject(NotificationService);
+  private readonly _dialogService = inject(DialogService);
+  private readonly _messageService = inject(MessageService);
 
   private readonly _unsubscribeAll: Subject<any> = new Subject<any>();
+
+  ref: DynamicDialogRef | undefined;
 
   user$!: Observable<User>;
   user!: User;
@@ -67,7 +71,7 @@ export class ProfileComponent implements OnInit {
     this._userService.user$.subscribe((user: User) => {
       this.objectId = Number(user.id);
       this.user = user;
-      this.getNotifications(user);
+      // this.getNotifications(user);
     });
 
     this.receiveMessage();
@@ -196,8 +200,34 @@ export class ProfileComponent implements OnInit {
     this._router.navigate(['/signin']);
   }
 
+  modalProfile() {
+    this.ref = this._dialogService.open(ProfileEditComponent, {
+      header: 'Editar Perfil',
+      width: '100%',
+      modal: true,
+      position: 'top',
+      closable: true,
+      data: {
+        item: 0,
+      },
+    });
+
+    this.ref.onClose.subscribe((data: any) => {
+      this._messageService.add({
+        severity: 'success',
+        summary: 'Actualizar',
+        detail: 'Perfil actualizado con éxito',
+        life: 3000,
+      });
+    });
+  }
+
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
+
+    if (this.ref) {
+      this.ref.close();
+    }
   }
 }

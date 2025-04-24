@@ -30,9 +30,7 @@
       <p>Atleta</p>
 
       <div class="mt-4 grid grid-cols-2 gap-2">
-        <button (click)="showProfile = !showProfile" class="btn-primary">
-          Editar
-        </button>
+        <button (click)="modalProfile()" class="btn-primary">Editar</button>
 
         <button
           href="#"
@@ -50,23 +48,4 @@
   <p class="text-center">Cargando...</p>
 }
 
-<p-dialog
-  header="Notificaciones"
-  [(visible)]="visible"
-  position="top"
-  dismissableMask="true"
-  styleClass="w-full h-4/5"
->
-  @if (notifications.length) {
-    <app-notifications [notifications]="notifications"></app-notifications>
-  }
-</p-dialog>
-
-<p-dialog
-  header="Editar"
-  [(visible)]="showProfile"
-  position="top"
-  styleClass="w-full h-4/5"
->
-  <app-profile-edit></app-profile-edit>
-</p-dialog>
+<p-toast [breakpoints]="{ '920px': { width: '70%' } }" />
