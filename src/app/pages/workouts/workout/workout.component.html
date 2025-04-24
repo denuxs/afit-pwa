@@ -1,0 +1,59 @@
+@if (workout$ | async; as workout) {
+  <section class="bg-gray-100">
+    <div class="container px-4 py-4 md:container md:mx-auto">
+      <nav class="mb-4">
+        <a href="#" routerLink="/workouts">
+          <i class="pi pi-arrow-left"></i>
+        </a>
+      </nav>
+
+      <h1>{{ workout.name }}</h1>
+
+      @if (workout.description) {
+        @let description = byPassHTML(workout.description);
+        <div
+          class="prose-sm break-words text-left"
+          [innerHTML]="description"
+        ></div>
+      }
+    </div>
+  </section>
+
+  <main class="container px-4 py-6 md:container md:mx-auto">
+    <h2>{{ workout.exercises.length }} ejercicios</h2>
+
+    @for (item of workout.exercises; track item.id) {
+      <a
+        href="#"
+        [routerLink]="['/workouts', workout.id, 'exercise', item.exercise.id]"
+        class="block py-2"
+      >
+        <div class="mb-2 flex items-center gap-2">
+          <div>
+            <img
+              [src]="item.exercise.image"
+              alt="exercise"
+              class="h-12 w-12 rounded-full border border-gray-200 object-cover"
+            />
+          </div>
+          <div>
+            <h2 class="text-blue-700">{{ item.exercise.name }}</h2>
+            <p class="text-sm text-gray-400">
+              {{ item.exercise.muscle.name }}
+            </p>
+          </div>
+        </div>
+
+        @if (item.description) {
+          @let description = byPassHTML(item.exercise.description);
+          <div
+            class="prose-sm mb-2 break-words text-left text-gray-600"
+            [innerHTML]="description"
+          ></div>
+        }
+      </a>
+    }
+  </main>
+} @else {
+  <p class="text-center">Cargando...</p>
+}

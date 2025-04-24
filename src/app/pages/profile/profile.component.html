@@ -1,0 +1,72 @@
+@if (user) {
+  <main class="px-4 py-6 md:container md:mx-auto">
+    <div class="mb-4 flex flex-col items-center">
+      <div class="relative mb-6 inline-block">
+        <p-image
+          [src]="avatar ? avatar : user.photo"
+          alt="user-{{ user.id }}]"
+          [preview]="true"
+          imageClass="mx-auto h-28 w-28 rounded-full border border-gray-200 object-cover"
+        />
+        <input
+          type="file"
+          accept="image/*"
+          (change)="uploadImage($event, user)"
+          class="hidden"
+          #fileInput
+        />
+        <button
+          type="button"
+          (click)="fileInput.click()"
+          class="translate-x-1/1 absolute bottom-0 end-0 block translate-y-1/4 transform rounded-full border-2 border-gray-200 bg-white px-2 py-1"
+        >
+          <i class="pi pi-camera"></i>
+        </button>
+      </div>
+
+      @if (user.first_name && user.last_name) {
+        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+      }
+      <p>Atleta</p>
+
+      <div class="mt-4 grid grid-cols-2 gap-2">
+        <button (click)="showProfile = !showProfile" class="btn-primary">
+          Editar
+        </button>
+
+        <button
+          href="#"
+          (click)="logout()"
+          class="rounded-lg border-2 border-red-200 bg-white px-4 py-2 text-red-900 hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100"
+        >
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+
+    <app-upload-image [contentType]="contentType" [objectId]="objectId" />
+  </main>
+} @else {
+  <p class="text-center">Cargando...</p>
+}
+
+<p-dialog
+  header="Notificaciones"
+  [(visible)]="visible"
+  position="top"
+  dismissableMask="true"
+  styleClass="w-full h-4/5"
+>
+  @if (notifications.length) {
+    <app-notifications [notifications]="notifications"></app-notifications>
+  }
+</p-dialog>
+
+<p-dialog
+  header="Editar"
+  [(visible)]="showProfile"
+  position="top"
+  styleClass="w-full h-4/5"
+>
+  <app-profile-edit></app-profile-edit>
+</p-dialog>

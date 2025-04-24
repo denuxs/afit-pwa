@@ -1,0 +1,17 @@
+<main class="container px-4 py-6 md:container md:mx-auto">
+  @if (workouts$ | async; as data) {
+    @if (data.length === 0) {
+      <div
+        class="flex h-28 items-center justify-center rounded-md border border-gray-200"
+      >
+        <p>No hay Rutinas</p>
+      </div>
+    }
+
+    @for (item of data; track item.id) {
+      <workout-item [workout]="item"></workout-item>
+    }
+  } @else {
+    <p class="text-center">Cargando...</p>
+  }
+</main>

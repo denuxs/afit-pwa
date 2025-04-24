@@ -1,0 +1,25 @@
+<main>
+  <section>
+    @for (data of notifications; track data.id) {
+      <article class="flex items-center space-x-2 py-2">
+        <div class="flex w-14 items-center justify-center">
+          <img
+            [src]="data.photo"
+            class="h-8 w-8 rounded-full object-cover"
+            alt="user-1"
+          />
+        </div>
+        <div>
+          <p>
+            <strong>{{ data.username }}</strong> comento sobre el ejercicio
+            <strong>{{ data.exercise }}</strong
+            >: {{ data.comment }}
+          </p>
+          <p class="text-sm text-gray-500">
+            {{ data.created | timeAgo }}
+          </p>
+        </div>
+      </article>
+    }
+  </section>
+</main>
