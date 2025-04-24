@@ -33,6 +33,14 @@ npm install
 ng server
 ```
 
+### screenshots
+
+![profile](https://github.com/denuxs/afit-pwa/blob/main/screenshots/login.png)
+![profile](https://github.com/denuxs/afit-pwa/blob/main/screenshots/profile.png)
+![workouts](https://github.com/denuxs/afit-pwa/blob/main/screenshots/workouts.png)
+![exercises](https://github.com/denuxs/afit-pwa/blob/main/screenshots/exercises.png)
+![exercise](https://github.com/denuxs/afit-pwa/blob/main/screenshots/exercise.png)
+
 ### TO DO
 
 - Mejoras en autenticación JWT
