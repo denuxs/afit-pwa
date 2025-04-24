@@ -26,5 +26,17 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "workout-api",
+      "urls": ["/api/"],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "10s",
+        "maxAge": "1h",
+        "maxSize": 100
+      }
+    }
   ]
 }
