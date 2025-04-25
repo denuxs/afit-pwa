@@ -1,16 +1,15 @@
 <main class="px-4 py-4 md:container md:mx-auto">
-  <nav class="mb-4">
-    <a href="#" routerLink="/measures">
-      <i class="pi pi-arrow-left"></i>
-    </a>
-  </nav>
-
   @if (measure$ | async; as measure) {
+    <nav class="mb-4">
+      <a href="#" routerLink="/measures">
+        <i class="pi pi-arrow-left"></i>
+      </a>
+    </nav>
+
     <app-upload-image [contentType]="contentType" [objectId]="objectId" />
 
     @if (measure.comment) {
-      <div class="mb-2">
-        <label class="form-label">Comentario:</label>
+      <div class="mb-2 mt-4">
         <p>{{ measure.comment }}</p>
       </div>
     }
@@ -122,6 +121,6 @@
       </tbody>
     </table>
   } @else {
-    <p class="text-center">Cargando...</p>
+    <app-skeleton />
   }
 </main>
