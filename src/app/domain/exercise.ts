@@ -20,12 +20,3 @@ export interface Exercise {
   comments: Comment[];
   created: Date;
 }
-
-export interface ExerciseDto {
-  name: string;
-  description?: string;
-  equipment: number;
-  muscle: number;
-  sets: number;
-  repts: number;
-}

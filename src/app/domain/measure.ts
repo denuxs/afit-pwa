@@ -2,7 +2,6 @@ export interface Measure {
   id: number;
   user: number;
   comment: string;
-  // height: number;
   created: Date;
   measures: {
     weight: number;

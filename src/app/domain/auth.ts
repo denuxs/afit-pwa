@@ -10,13 +10,3 @@ export interface LoginResponse {
   refresh: string;
   user: User;
 }
-
-export interface RegisterDto {
-  username: string;
-  password: string;
-}
-
-export interface RegisterError {
-  username?: string[];
-  password?: string[];
-}
