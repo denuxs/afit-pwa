@@ -6,8 +6,9 @@ import { ToastModule } from 'primeng/toast';
 import { ImageModule } from 'primeng/image';
 import { DialogModule } from 'primeng/dialog';
 
-import { NotificationService, UserService } from 'app/services';
+import { NotificationService } from 'app/services';
 import { AuthService } from 'app/core/auth/auth.service';
+import { UserService } from 'app/core/services';
 
 import { Notification, User } from 'app/domain';
 
@@ -26,10 +27,25 @@ import {
 } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 
+import {
+  MatBottomSheet,
+  MatBottomSheetModule,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
+import { MatButtonModule } from '@angular/material/button';
+import { NotfoundComponent } from '../notfound/notfound.component';
+
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ImageModule, ToastModule, DialogModule, UploadImageComponent],
+  imports: [
+    ImageModule,
+    ToastModule,
+    DialogModule,
+    MatButtonModule,
+    MatBottomSheetModule,
+    UploadImageComponent,
+  ],
   providers: [DialogService, MessageService],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
@@ -45,6 +61,7 @@ export class ProfileComponent implements OnInit {
   private readonly _unsubscribeAll: Subject<any> = new Subject<any>();
 
   ref: DynamicDialogRef | undefined;
+  private _bottomSheet = inject(MatBottomSheet);
 
   user$!: Observable<User>;
   user!: User;
@@ -110,6 +127,10 @@ export class ProfileComponent implements OnInit {
       };
     });
     this.notifications = data;
+  }
+
+  openBottomSheet(): void {
+    this._bottomSheet.open(NotfoundComponent);
   }
 
   showModal() {

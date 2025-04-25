@@ -9,13 +9,6 @@ import {
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
-import { DeviceDetectorService } from 'ngx-device-detector';
-
-import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken } from 'firebase/messaging';
-
-import { environment } from '../../../../environments/environment';
-
 import { User } from 'app/domain';
 import { UserService } from 'app/core/services';
 
@@ -32,8 +25,6 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 })
 export class ProfileEditComponent implements OnInit {
   private readonly _formBuilder = inject(FormBuilder);
-  private readonly messaging;
-  private readonly _deviceService = inject(DeviceDetectorService);
   private readonly _unsubscribeAll: Subject<any> = new Subject<any>();
 
   private readonly _userService = inject(UserService);
@@ -47,10 +38,7 @@ export class ProfileEditComponent implements OnInit {
 
   user!: User;
 
-  constructor(private ref: DynamicDialogRef) {
-    const app = initializeApp(environment.firebaseConfig);
-    this.messaging = getMessaging(app);
-  }
+  constructor(private ref: DynamicDialogRef) {}
 
   ngOnInit(): void {
     this.getUser();
@@ -66,9 +54,6 @@ export class ProfileEditComponent implements OnInit {
           phone: user.phone,
         });
       },
-      error: (err) => {
-        console.log('error getting profile');
-      },
     });
   }
 
@@ -81,16 +66,6 @@ export class ProfileEditComponent implements OnInit {
     const form = this.profileForm.value;
 
     this.saveProfile(this.user.id, form);
-
-    // console.log(Notification.permission);
-
-    // if (form.notification) {
-    //   if (Notification.permission !== 'granted') {
-    //     this.requestPermission();
-    //   }
-    // }
-
-    // console.log(form);
   }
 
   saveProfile(user: number, form: any) {
@@ -101,49 +76,13 @@ export class ProfileEditComponent implements OnInit {
         next: (response: any) => {
           this._userService.user = response;
 
-          this.close();
+          this.close(true);
         },
       });
   }
 
-  close() {
-    this.ref.close();
-  }
-
-  requestPermission() {
-    // console.log('request permission');
-    Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        this.getFcmToken(this.user);
-      }
-    });
-  }
-
-  getFcmToken(user: User) {
-    return getToken(this.messaging, {
-      vapidKey: environment.vapidKey,
-    })
-      .then((currentToken) => {
-        if (currentToken) {
-          this.saveToken(user.id, currentToken);
-        } else {
-          console.log('No registration token available.');
-        }
-      })
-      .catch((err) => {
-        console.log('Error getting token', err);
-      });
-  }
-
-  saveToken(userId: number, token: string) {
-    const info = this._deviceService.getDeviceInfo();
-
-    const form = {
-      token: token,
-      user: userId,
-      device: info.browser,
-    };
-    this._userService.saveFirebaseToken(form).subscribe();
+  close(success: boolean) {
+    this.ref.close(success);
   }
 
   ngOnDestroy(): void {
