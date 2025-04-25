@@ -79,7 +79,6 @@ export const appConfig: ApplicationConfig = {
       useValue: () => inject(ToastMessageService),
       multi: true,
     },
-    provideAnimationsAsync(),
     // provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     // provideMessaging(() => getMessaging()),
   ],
