@@ -1,20 +1,32 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { Measure } from 'app/domain';
 import { MeasuresService, UserService } from 'app/services';
+import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
 
 import { ChartModule } from 'primeng/chart';
 
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
+interface LineChartDataset {
+  label: string;
+  data: number[];
+  fill?: boolean;
+  tension?: number;
+}
+interface LineChart {
+  labels: string[];
+  datasets: LineChartDataset[];
+}
+
 @Component({
   selector: 'app-measures',
   standalone: true,
-  imports: [DatePipe, ChartModule, RouterLink],
+  imports: [DatePipe, ChartModule, AsyncPipe, SkeletonComponent, RouterLink],
   templateUrl: './measures.component.html',
   styleUrl: './measures.component.scss',
 })
@@ -25,12 +37,14 @@ export class MeasuresComponent implements OnInit {
   measures$!: Observable<Measure[]>;
   measures: Measure[] = [];
 
-  dataChart: any = {
+  dataChart: LineChart = {
     labels: [],
     datasets: [
       {
         label: 'Peso',
         data: [],
+        fill: false,
+        tension: 0.4,
       },
     ],
   };
@@ -48,44 +62,34 @@ export class MeasuresComponent implements OnInit {
         ordering: '-id',
       };
 
-      // this.measures$ = this._measureService.fetchMeasures(params);
-      this.getMeasures(params);
+      this.measures$ = this._measureService.fetchMeasures(params);
     });
   }
 
-  getMeasures(params: any) {
-    this._measureService.fetchMeasures(params).subscribe({
-      next: (measures: Measure[]) => {
-        this.measures = measures;
-
-        const data = measures.map((item) => {
-          const { measures } = item;
-          return measures.weight;
-        });
-        data.reverse();
-
-        const labels = measures.map((item) => {
-          return format(new Date(item.created), 'dd-LLLL', { locale: es });
-        });
-        labels.reverse();
-
-        this.setLineChart(data, labels);
-      },
-      error: (err) => {
-        console.log('error getting measures');
-      },
+  setLineChart(measures: Measure[]) {
+    const data: number[] = measures.map((item) => {
+      const { measures } = item;
+      return measures.weight;
     });
-  }
+    data.reverse();
 
-  setLineChart(data: any, labels: any) {
-    this.dataChart.labels = labels;
-    this.dataChart.datasets = [
-      {
-        label: 'Peso',
-        data: data,
-        fill: false,
-        tension: 0.4,
-      },
-    ];
+    const labels: string[] = measures.map((item) => {
+      return format(new Date(item.created), 'dd-LLLL', { locale: es });
+    });
+    labels.reverse();
+
+    const chart: LineChart = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Peso',
+          data: data,
+          fill: false,
+          tension: 0.4,
+        },
+      ],
+    };
+
+    return chart;
   }
 }
