@@ -45,7 +45,7 @@
         </div>
 
         @if (item.description) {
-          @let description = byPassHTML(item.exercise.description);
+          @let description = byPassHTML(item.description);
           <div
             class="prose-sm mb-2 break-words text-left text-gray-600"
             [innerHTML]="description"
@@ -55,5 +55,5 @@
     }
   </main>
 } @else {
-  <p class="text-center">Cargando...</p>
+  <app-skeleton />
 }

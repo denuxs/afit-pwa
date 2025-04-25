@@ -7,11 +7,12 @@ import { AsyncPipe } from '@angular/common';
 
 import { Workout } from 'app/domain';
 import { WorkoutService } from 'app/services';
+import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-workout',
   standalone: true,
-  imports: [RouterLink, AsyncPipe],
+  imports: [RouterLink, SkeletonComponent, AsyncPipe],
   templateUrl: './workout.component.html',
   styleUrl: './workout.component.scss',
 })
