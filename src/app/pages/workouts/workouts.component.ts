@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -45,12 +45,16 @@ export class WorkoutsComponent implements OnInit {
     'from-red-500 to-orange-500',
   ];
   gradient = '';
+  startDay = 0;
 
   ngOnInit(): void {
     const randomNumber = Math.floor(Math.random() * 7) + 1;
     const randomColor = this.colors[randomNumber];
 
     this.gradient = randomColor;
+
+    const today = new Date();
+    this.startDay = today.getDay();
 
     this._userService.user$.subscribe((user) => {
       this.getWorkouts(user);
@@ -63,7 +67,9 @@ export class WorkoutsComponent implements OnInit {
       ordering: 'day',
       is_active: true,
     };
-    this.workouts$ = this._workoutService.fetchWorkouts(params);
+    this.workouts$ = this._workoutService
+      .fetchWorkouts(params)
+      .pipe(map((data) => this.getWorkoutsByDay(data, this.startDay)));
   }
 
   getDayOfWeek(index: number): string {
@@ -73,5 +79,22 @@ export class WorkoutsComponent implements OnInit {
   getMuscles(exercises: any) {
     const data = exercises.map((e: any) => e.exercise.muscle.name);
     return [...new Set(data)];
+  }
+
+  getWorkoutsByDay(data: Workout[], startDay: number): Workout[] {
+    const found = data.filter((item: any) => item.day === startDay);
+    if (!found.length) {
+      return data;
+    }
+
+    const index = data.findIndex((item: any) => item.day === startDay);
+    if (index === -1) {
+      throw new Error('El valor de inicio no está en el array.');
+    }
+
+    const firstPart = data.slice(index);
+    const secondPart = data.slice(0, index);
+
+    return firstPart.concat(secondPart);
   }
 }
