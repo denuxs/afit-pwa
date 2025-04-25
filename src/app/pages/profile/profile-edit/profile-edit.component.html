@@ -1,35 +1,19 @@
 <form [formGroup]="profileForm" (ngSubmit)="hanldleSubmit()">
+  <app-upload-avatar [user]="user" />
+
   <div class="mb-2">
     <label for="first_name" class="form-label">Nombres</label>
-    <input
-      type="text"
-      fluid="true"
-      pInputText
-      formControlName="first_name"
-      pSize="large"
-    />
+    <input type="text" fluid="true" pInputText formControlName="first_name" />
   </div>
 
   <div class="mb-2">
     <label for="last_name" class="form-label">Apellidos</label>
-    <input
-      type="text"
-      fluid="true"
-      pInputText
-      formControlName="last_name"
-      pSize="large"
-    />
+    <input type="text" fluid="true" pInputText formControlName="last_name" />
   </div>
 
   <div class="mb-2">
     <label for="phone" class="form-label">Teléfono</label>
-    <input
-      type="number"
-      fluid="true"
-      pInputText
-      formControlName="phone"
-      pSize="large"
-    />
+    <input type="number" fluid="true" pInputText formControlName="phone" />
   </div>
 
   <!-- <div class="flex justify-between">

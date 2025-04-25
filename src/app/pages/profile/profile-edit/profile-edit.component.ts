@@ -15,11 +15,19 @@ import { UserService } from 'app/core/services';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ImageModule } from 'primeng/image';
+import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
 
 @Component({
   selector: 'app-profile-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, ToggleButtonModule, InputTextModule],
+  imports: [
+    ReactiveFormsModule,
+    ToggleButtonModule,
+    ImageModule,
+    InputTextModule,
+    UploadAvatarComponent,
+  ],
   templateUrl: './profile-edit.component.html',
   styleUrl: './profile-edit.component.scss',
 })
@@ -37,6 +45,7 @@ export class ProfileEditComponent implements OnInit {
   });
 
   user!: User;
+  avatar: string = '';
 
   constructor(private ref: DynamicDialogRef) {}
 
