@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { NetworkService } from 'app/services/network.service';
+import { NetworkService } from 'app/core/services/';
 
 @Component({
   selector: 'app-navbar',

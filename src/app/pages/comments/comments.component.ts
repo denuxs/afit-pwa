@@ -8,8 +8,9 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 
 import { Comment, CommentDto, User } from 'app/domain';
-import { CommentService, UserService } from 'app/services';
+import { CommentService } from 'app/services';
 import { TimeAgoPipe } from 'app/pipes/time-ago.pipe';
+import { UserService } from 'app/core/services';
 
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';

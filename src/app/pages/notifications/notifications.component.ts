@@ -3,8 +3,9 @@ import { User } from 'app/domain';
 import { Observable } from 'rxjs';
 
 import { Notification } from 'app/domain';
-import { NotificationService, UserService } from 'app/services';
+import { NotificationService } from 'app/services';
 import { TimeAgoPipe } from 'app/pipes/time-ago.pipe';
+import { UserService } from 'app/core/services';
 
 @Component({
   selector: 'app-notifications',

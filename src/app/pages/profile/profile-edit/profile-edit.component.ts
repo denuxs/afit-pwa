@@ -16,8 +16,8 @@ import { getMessaging, getToken } from 'firebase/messaging';
 
 import { environment } from '../../../../environments/environment';
 
-import { UserService } from 'app/services';
 import { User } from 'app/domain';
+import { UserService } from 'app/core/services';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { ToggleButtonModule } from 'primeng/togglebutton';

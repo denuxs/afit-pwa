@@ -4,7 +4,9 @@ import { AsyncPipe, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { User, Workout } from 'app/domain';
-import { UserService, WorkoutService } from 'app/services';
+import { WorkoutService } from 'app/services';
+import { UserService } from 'app/core/services';
+
 import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
 
 @Component({

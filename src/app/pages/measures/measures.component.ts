@@ -4,8 +4,9 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { Measure } from 'app/domain';
-import { MeasuresService, UserService } from 'app/services';
+import { MeasuresService } from 'app/services';
 import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
+import { UserService } from 'app/core/services';
 
 import { ChartModule } from 'primeng/chart';
 

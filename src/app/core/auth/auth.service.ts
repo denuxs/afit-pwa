@@ -4,7 +4,7 @@ import { catchError, Observable, map, throwError, tap } from 'rxjs';
 
 import { LoginDto, LoginResponse } from 'app/domain';
 import { environment } from 'environments/environment';
-import { UserService } from 'app/services';
+import { UserService } from 'app/core/services';
 
 @Injectable({
   providedIn: 'root',
