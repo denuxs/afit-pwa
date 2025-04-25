@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Observable, takeUntil } from 'rxjs';
+import { map, Observable, takeUntil } from 'rxjs';
 import { DatePipe, AsyncPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -10,6 +10,7 @@ import { ImageModule } from 'primeng/image';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { UploadImageComponent } from 'app/components/upload-image/upload-image.component';
+import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-measure',
@@ -21,6 +22,7 @@ import { UploadImageComponent } from 'app/components/upload-image/upload-image.c
     ImageModule,
     ConfirmDialogModule,
     UploadImageComponent,
+    SkeletonComponent,
   ],
   templateUrl: './measure.component.html',
   styleUrl: './measure.component.scss',
