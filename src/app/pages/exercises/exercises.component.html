@@ -39,11 +39,11 @@
           <table class="w-full text-sm text-gray-500">
             <tr>
               <td class="text-center">Serie</td>
-              <td class="text-center">Rept</td>
+              <td class="text-center">Repeticiones</td>
             </tr>
             @for (s of exercise.data; track $index) {
               <tr class="odd:bg-white even:bg-gray-100">
-                <td class="text-center">{{ $index + 1 }}</td>
+                <td class="text-center">{{ s.sets }}</td>
                 <td class="text-center">{{ s.rept }}</td>
               </tr>
             }
