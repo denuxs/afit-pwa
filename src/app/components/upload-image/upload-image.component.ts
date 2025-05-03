@@ -3,7 +3,7 @@ import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { ImageService } from 'app/services';
-import { Image } from 'app/domain';
+import { Image, ImageList } from 'app/domain';
 
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -26,7 +26,7 @@ export class UploadImageComponent implements OnInit {
   @Input() contentType = 0;
   @Input() objectId = 0;
 
-  images$!: Observable<Image[]>;
+  images$!: Observable<ImageList>;
 
   ngOnInit(): void {
     if (this.objectId && this.contentType) {

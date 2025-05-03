@@ -4,6 +4,9 @@ export interface User {
   photo: string;
   phone: number;
   age: number;
+  weight: number;
+  height: number;
+  experience_level: string;
   password: string;
   gender: string;
   first_name: string;

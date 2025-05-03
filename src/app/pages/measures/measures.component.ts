@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-import { Measure } from 'app/domain';
+import { Measure, MeasureList } from 'app/domain';
 import { MeasuresService } from 'app/services';
 import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
 import { UserService } from 'app/core/services';
@@ -35,7 +35,7 @@ export class MeasuresComponent implements OnInit {
   private readonly _measureService = inject(MeasuresService);
   private readonly _userService = inject(UserService);
 
-  measures$!: Observable<Measure[]>;
+  measures$!: Observable<MeasureList>;
   measures: Measure[] = [];
 
   dataChart: LineChart = {
@@ -63,7 +63,12 @@ export class MeasuresComponent implements OnInit {
         ordering: '-id',
       };
 
-      this.measures$ = this._measureService.fetchMeasures(params);
+      this.measures$ = this._measureService.fetchMeasures(params).pipe(
+        map((data) => {
+          this.setLineChart(data.results);
+          return data;
+        }),
+      );
     });
   }
 
@@ -79,7 +84,7 @@ export class MeasuresComponent implements OnInit {
     });
     labels.reverse();
 
-    const chart: LineChart = {
+    this.dataChart = {
       labels: labels,
       datasets: [
         {
@@ -90,7 +95,5 @@ export class MeasuresComponent implements OnInit {
         },
       ],
     };
-
-    return chart;
   }
 }

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { Image } from 'app/domain';
+import { Image, ImageList } from 'app/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +17,8 @@ export class ImageService {
   fetchImages(params?: {
     object_id: number;
     content_type: number;
-  }): Observable<Image[]> {
-    return this._httpClient.get<Image[]>(this._api, { params });
+  }): Observable<ImageList> {
+    return this._httpClient.get<ImageList>(this._api, { params });
   }
 
   saveImage(form: FormData): Observable<Image> {

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { Comment, CommentDto } from 'app/domain';
+import { Comment, CommentDto, CommentList } from 'app/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +18,8 @@ export class CommentService {
     object_id: number;
     content_type: number;
     user?: number;
-  }): Observable<Comment[]> {
-    return this._httpClient.get<Comment[]>(this._api, { params });
+  }): Observable<CommentList> {
+    return this._httpClient.get<CommentList>(this._api, { params });
   }
 
   saveComment(comment: CommentDto): Observable<Comment> {

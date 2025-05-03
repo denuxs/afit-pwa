@@ -5,3 +5,10 @@ export interface Image {
   content_type: number;
   created: Date;
 }
+
+export interface ImageList {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Image[];
+}

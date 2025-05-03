@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { Workout } from 'app/domain';
+import { Workout, WorkoutList } from 'app/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +14,8 @@ export class WorkoutService {
 
   constructor() {}
 
-  fetchWorkouts(params: any): Observable<Workout[]> {
-    return this._httpClient.get<Workout[]>(this._api, { params });
+  fetchWorkouts(params: any): Observable<WorkoutList> {
+    return this._httpClient.get<WorkoutList>(this._api, { params });
   }
 
   showWorkout(id: number): Observable<Workout> {

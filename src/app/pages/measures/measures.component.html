@@ -1,14 +1,12 @@
 <main class="container px-4 py-6 md:container md:mx-auto">
   @if (measures$ | async; as measure) {
-    @let data = setLineChart(measure);
-
     <div class="mb-4 rounded-md border border-gray-200 px-4 py-2">
-      <p-chart type="line" [data]="data" [options]="optionsChart" />
+      <p-chart type="line" [data]="dataChart" [options]="optionsChart" />
     </div>
 
     <h2 class="mb-2">Historial</h2>
 
-    @if (measure.length === 0) {
+    @if (measure.results.length === 0) {
       <div
         class="flex h-28 items-center justify-center rounded-md border border-gray-200"
       >
@@ -18,7 +16,7 @@
 
     <table class="mb-6 w-full text-left">
       <tbody>
-        @for (item of measure; track item.id) {
+        @for (item of measure.results; track item.id) {
           <tr
             [routerLink]="['/measures/', item.id]"
             class="odd:bg-white even:bg-gray-100"

@@ -20,3 +20,10 @@ export interface Exercise {
   comments: Comment[];
   created: Date;
 }
+
+export interface ExerciseList {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Exercise[];
+}

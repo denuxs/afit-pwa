@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
-import { Comment, CommentDto, User } from 'app/domain';
+import { Comment, CommentDto, CommentList, User } from 'app/domain';
 import { CommentService } from 'app/services';
 import { TimeAgoPipe } from 'app/pipes/time-ago.pipe';
 import { UserService } from 'app/core/services';
@@ -61,8 +61,8 @@ export class CommentsComponent implements OnInit {
     this._commentService
       .fetchComments(params)
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((comments: Comment[]) => {
-        this.comments = comments;
+      .subscribe((comments: CommentList) => {
+        this.comments = comments.results;
       });
   }
 

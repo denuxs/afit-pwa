@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { Exercise } from 'app/domain';
+import { Exercise, ExerciseList } from 'app/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +14,8 @@ export class ExerciseService {
 
   constructor() {}
 
-  fetchExercises(): Observable<Exercise[]> {
-    return this._httpClient.get<Exercise[]>(this._api);
+  fetchExercises(): Observable<ExerciseList> {
+    return this._httpClient.get<ExerciseList>(this._api);
   }
 
   showExercise(id: number): Observable<Exercise> {
