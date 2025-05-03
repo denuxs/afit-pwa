@@ -40,6 +40,10 @@ export class ProfileEditComponent implements OnInit {
   profileForm: FormGroup = this._formBuilder.group({
     first_name: ['', [Validators.required]],
     last_name: ['', [Validators.required]],
+    age: ['', []],
+    weight: ['', []],
+    height: ['', []],
+    experience_level: ['', []],
     phone: ['', []],
     // notification: [false, [Validators.required]],
   });
@@ -60,7 +64,11 @@ export class ProfileEditComponent implements OnInit {
         this.profileForm.patchValue({
           first_name: user.first_name,
           last_name: user.last_name,
+          age: user.age,
           phone: user.phone,
+          weight: user.weight,
+          height: user.height,
+          experience_level: user.experience_level,
         });
       },
     });
