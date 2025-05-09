@@ -3,7 +3,7 @@ import { map, Observable } from 'rxjs';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-import { User, Workout } from 'app/domain';
+import { User, Workout, WorkoutList } from 'app/domain';
 import { WorkoutService } from 'app/services';
 import { UserService } from 'app/core/services';
 
@@ -20,7 +20,7 @@ export class WorkoutsComponent implements OnInit {
   private readonly _workoutService = inject(WorkoutService);
   private readonly _userService = inject(UserService);
 
-  workouts$!: Observable<Workout[]>;
+  workouts$!: Observable<WorkoutList>;
 
   // daysOfWeek = [
   //   'Lunes',
@@ -46,6 +46,7 @@ export class WorkoutsComponent implements OnInit {
   ];
   gradient = '';
   startDay = 0;
+  musclesGrouped: any = {};
 
   ngOnInit(): void {
     const randomNumber = Math.floor(Math.random() * 7) + 1;
@@ -67,18 +68,27 @@ export class WorkoutsComponent implements OnInit {
       ordering: 'day',
       is_active: true,
     };
-    this.workouts$ = this._workoutService
-      .fetchWorkouts(params)
-      .pipe(map((data) => this.getWorkoutsByDay(data, this.startDay)));
+    this.workouts$ = this._workoutService.fetchWorkouts(params).pipe(
+      map((workouts: WorkoutList) => {
+        this.getMusclesGrouped(workouts.results);
+
+        return workouts;
+        // return this.getWorkoutsByDay(workouts, this.startDay);
+      }),
+    );
   }
 
   getDayOfWeek(index: number): string {
     return this.daysOfWeek[index - 1];
   }
 
-  getMuscles(exercises: any) {
-    const data = exercises.map((e: any) => e.exercise.muscle.name);
-    return [...new Set(data)];
+  getMusclesGrouped(workouts: Workout[]) {
+    workouts.map((workout: Workout) => {
+      const data = workout.exercises.map((e: any) => e.exercise.muscle.name);
+      const grouped = [...new Set(data)];
+
+      this.musclesGrouped[workout.id] = grouped;
+    });
   }
 
   getWorkoutsByDay(data: Workout[], startDay: number): Workout[] {
