@@ -9,3 +9,10 @@ export interface Notification {
   comment: Comment;
   created: Date;
 }
+
+export interface NotificationList {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Notification[];
+}

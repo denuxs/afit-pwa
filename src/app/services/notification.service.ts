@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { Notification } from 'app/domain';
+import { Notification, NotificationList } from 'app/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class NotificationService {
 
   constructor() {}
 
-  fetchNotifications(params: any): Observable<Notification[]> {
-    return this._httpClient.get<Notification[]>(this._api, { params });
+  search(params?: any): Observable<NotificationList> {
+    return this._httpClient.get<NotificationList>(this._api, { params });
   }
 }

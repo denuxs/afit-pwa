@@ -1,25 +1,18 @@
 <main>
+  <div class="flex gap-2">
+    <label for="notification" class="form-label">Permitir notificaciones</label>
+    <div>
+      <p-toggleswitch (onChange)="notificationToggle($event)" />
+    </div>
+  </div>
+
   <section>
-    @for (item of notifications$ | async; track item.id) {
-      <article class="flex items-center gap-1 py-2">
-        <div class="flex w-14 items-center justify-center">
-          <img
-            [src]="item.user.photo"
-            class="h-8 w-8 rounded-full object-cover"
-            alt="user-1"
-          />
-        </div>
-        <div>
-          <p>
-            <strong>{{ item.user.username }}</strong> comento sobre el ejercicio
-            <strong>{{ item.comment.exercise.name }}</strong
-            >: {{ item.comment.content }}
-          </p>
-          <p class="text-sm text-gray-500">
-            {{ item.created | timeAgo }}
-          </p>
-        </div>
-      </article>
+    @if (notifications$ | async; as data) {
+      @for (item of data.results; track item.id) {
+        <article class="flex items-center gap-1 py-2">
+          {{ item.id }}
+        </article>
+      }
     }
   </section>
 </main>
