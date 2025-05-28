@@ -1,0 +1,35 @@
+<main class="container px-4 py-6 md:container md:mx-auto">
+  @if (workouts$ | async; as workouts) {
+    @if (workouts.length === 0) {
+      <div
+        class="flex h-28 items-center justify-center rounded-md border border-gray-200"
+      >
+        <p>No hay Rutinas</p>
+      </div>
+    }
+
+    @for (workout of workouts; track workout.id) {
+      <h2>{{ workout.title }}</h2>
+      <p class="mb-2 text-gray-600">{{ workout.routines.length }} rutinas</p>
+
+      @for (routine of workout.routines; track routine.id) {
+        <div
+          class="mb-2 flex items-center justify-between gap-2 rounded-md border px-4 py-4 hover:bg-gray-100"
+        >
+          <div>
+            <h2 class="text-blue-700">
+              <a [routerLink]="['/routines', routine.id]" href="#">
+                {{ routine.title }}
+              </a>
+            </h2>
+          </div>
+          <div>
+            <ng-icon name="faSolidChevronRight" />
+          </div>
+        </div>
+      }
+    }
+  } @else {
+    <app-skeleton />
+  }
+</main>

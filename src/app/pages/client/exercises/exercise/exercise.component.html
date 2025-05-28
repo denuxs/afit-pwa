@@ -1,0 +1,68 @@
+<main class="container px-4 py-4 md:container md:mx-auto">
+  <nav class="mb-4">
+    <button type="button" (click)="goBack()">
+      <i class="pi pi-arrow-left"></i>
+    </button>
+  </nav>
+
+  @if (exercise$ | async; as exercise) {
+    <div class="mx-auto mb-4 w-1/2">
+      @let image = "default.jpg";
+
+      <img [src]="exercise.image ? exercise.image : image" class="w-full" />
+    </div>
+
+    <p-tabs value="0">
+      <p-tablist>
+        <p-tab value="0">Ejercicio</p-tab>
+        <!-- <p-tab value="1">Comentarios</p-tab> -->
+      </p-tablist>
+      <p-tabpanels>
+        <p-tabpanel value="0">
+          <h1 class="mb-2">{{ exercise.exercise.name }}</h1>
+
+          <div class="mb-4">
+            <span
+              class="me-2 rounded-full bg-blue-100 px-2 py-0.5 text-sm font-medium text-blue-500"
+              >{{ exercise.exercise.muscle.name }}</span
+            >
+            @if (exercise.exercise.equipment) {
+              <span
+                class="me-2 rounded-full bg-blue-100 px-2 py-0.5 text-sm font-medium text-blue-500"
+                >{{ exercise.exercise.equipment.name }}</span
+              >
+            }
+          </div>
+
+          <table class="w-full text-sm text-gray-500">
+            <tr>
+              <td class="text-center">Serie</td>
+              <td class="text-center">Repeticiones</td>
+            </tr>
+            @for (s of exercise.sets; track $index) {
+              <tr class="odd:bg-white even:bg-gray-100">
+                <td class="text-center">{{ s.sets }}</td>
+                <td class="text-center">{{ s.rept }}</td>
+              </tr>
+            }
+          </table>
+
+          <h2 class="mt-4">Instrucciones</h2>
+
+          @if (exercise.exercise.description) {
+            @let description = byPassHTML(exercise.exercise.description);
+            <div
+              class="prose-sm mb-6 break-words text-left"
+              [innerHTML]="description"
+            ></div>
+          }
+        </p-tabpanel>
+        <p-tabpanel value="1">
+          <!-- <app-comments [exerciseId]="exercise.exercise.id"></app-comments> -->
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  } @else {
+    <p class="text-center">Cargando...</p>
+  }
+</main>

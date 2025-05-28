@@ -1,0 +1,19 @@
+<header class="bg-blue-700 px-4 py-2 text-white">
+  <div class="flex justify-between md:container md:mx-auto">
+    <div></div>
+    <div>
+      <h2 class="text-center text-white">{{ title }}</h2>
+    </div>
+    <div>
+      <button (click)="openCreateDialog()" class="hidden px-4">
+        <i class="pi pi-bell"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+@if (!isOnline) {
+  <div class="flex justify-center bg-yellow-100 py-2 text-sm text-gray-600">
+    Sin conexión a Internet
+  </div>
+}

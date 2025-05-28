@@ -1,0 +1,40 @@
+<main class="container px-4 py-6 md:container md:mx-auto">
+  @if (workouts$ | async; as workouts) {
+    @if (workouts.length === 0) {
+      <div
+        class="flex h-28 items-center justify-center rounded-md border border-gray-200"
+      >
+        <p>No hay Clientes</p>
+      </div>
+    }
+
+    @for (workout of workouts; track workout.id) {
+      @for (routine of workout.routines; track routine.id) {
+        <div
+          class="flex items-center justify-between gap-2 border-b px-4 py-4 hover:bg-gray-100"
+        >
+          <div class="flex gap-2">
+            <div>
+              <app-prime-avatar
+                [avatar]="workout.client.photo"
+              ></app-prime-avatar>
+            </div>
+            <div>
+              <h2 class="text-blue-700">
+                <a [routerLink]="['/routines', routine.id]" href="#">{{
+                  workout.client.fullname
+                }}</a>
+              </h2>
+              <p class="text-sm text-gray-600">{{ routine.title }}</p>
+            </div>
+          </div>
+          <div>
+            <ng-icon name="faSolidChevronRight" />
+          </div>
+        </div>
+      }
+    }
+  } @else {
+    <app-skeleton />
+  }
+</main>
