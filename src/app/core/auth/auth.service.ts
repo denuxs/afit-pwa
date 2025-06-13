@@ -20,19 +20,19 @@ export class AuthService {
   constructor() {}
 
   set accessToken(token: string) {
-    localStorage.setItem('accessToken', token);
+    localStorage.setItem('faafittok', token);
   }
 
   get accessToken(): string {
-    return localStorage.getItem('accessToken') ?? '';
+    return localStorage.getItem('faafittok') ?? '';
   }
 
   set refreshToken(token: string) {
-    localStorage.setItem('refreshToken', token);
+    localStorage.setItem('farfittok', token);
   }
 
   get refreshToken(): string {
-    return localStorage.getItem('refreshToken') ?? '';
+    return localStorage.getItem('farfittok') ?? '';
   }
 
   login(form: LoginDto): Observable<LoginResponse> {
@@ -51,8 +51,8 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('faafittok');
+    localStorage.removeItem('farfittok');
   }
 
   check(): boolean {

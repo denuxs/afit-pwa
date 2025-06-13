@@ -10,10 +10,10 @@
 
 <div class="grid grid-cols-3 gap-1 md:grid-cols-4">
   @if (images$ | async; as data) {
-    @for (image of data.results; track image.id) {
+    @for (image of data; track image.id) {
       <div class="relative">
         <p-image
-          [src]="image.photo"
+          [src]="image.image"
           alt="image-{{ image.id }}]"
           [preview]="true"
           imageClass="h-40 w-full object-cover"

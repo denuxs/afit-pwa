@@ -26,7 +26,7 @@ export class UploadImageComponent implements OnInit {
   @Input() contentType = 0;
   @Input() objectId = 0;
 
-  images$!: Observable<ImageList>;
+  images$!: Observable<Image[]>;
 
   ngOnInit(): void {
     if (this.objectId && this.contentType) {
@@ -38,6 +38,7 @@ export class UploadImageComponent implements OnInit {
     this.images$ = this._imageService.fetchImages({
       object_id: object_id,
       content_type: contentType,
+      paginator: null,
     });
   }
 
@@ -48,7 +49,7 @@ export class UploadImageComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('photo', file);
+    formData.append('image', file);
     formData.append('object_id', this.objectId.toString());
     formData.append('content_type', this.contentType.toString());
 

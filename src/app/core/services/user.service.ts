@@ -44,7 +44,7 @@ export class UserService {
     return this._httpClient.get<Workout[]>(this._api + 'workouts/');
   }
 
-  updateUser(id: number, form: any): Observable<User> {
+  updateUser(id: number, form: FormData): Observable<User> {
     return this._httpClient.patch<User>(this._api + `${id}/`, form);
   }
 
