@@ -1,14 +1,8 @@
 export interface User {
   id: number;
   username: string;
-  photo: string;
-  phone: number;
-  age: number;
-  weight: number;
-  height: number;
-  experience_level: string;
   password: string;
-  gender: string;
+  avatar: string;
   first_name: string;
   last_name: string;
   is_superuser: boolean;
@@ -16,4 +10,12 @@ export interface User {
   is_active: boolean;
   date_joined: Date;
   last_login: Date;
+  client: number;
+
+  phone: number;
+  age: number;
+  weight: number;
+  height: number;
+  experience_level: string;
+  gender: string;
 }
