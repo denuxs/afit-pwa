@@ -8,7 +8,7 @@ import {
 } from 'primeng/dynamicdialog';
 
 import { NetworkService } from 'app/core/services/';
-import { NotificationsComponent } from 'app/pages/client/notifications/notifications.component';
+import { NotificationsComponent } from 'app/pages/notifications/notifications.component';
 
 @Component({
   selector: 'app-navbar',

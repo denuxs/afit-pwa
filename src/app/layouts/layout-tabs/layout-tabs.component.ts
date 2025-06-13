@@ -17,8 +17,15 @@ import { User } from 'app/domain';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 
+interface Menu {
+  id: number;
+  link: string;
+  label: string;
+  icon: string;
+}
+
 @Component({
-  selector: 'app-client-tabs',
+  selector: 'app-layout-tabs',
   standalone: true,
   imports: [
     RouterLink,
@@ -26,6 +33,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
     NavbarComponent,
     NgIcon,
     RouterLinkActive,
+    NgClass,
   ],
   providers: [
     provideIcons({
@@ -36,11 +44,13 @@ import { NavbarComponent } from '../navbar/navbar.component';
       faSolidWeightScale,
     }),
   ],
-  templateUrl: './client-tabs.component.html',
-  styleUrl: './client-tabs.component.scss',
+  templateUrl: './layout-tabs.component.html',
+  styleUrl: './layout-tabs.component.scss',
 })
-export class ClientTabsComponent {
-  menus = [
+export class LayoutTabsComponent implements OnInit {
+  private readonly _userService = inject(UserService);
+
+  client: Menu[] = [
     {
       id: 1,
       link: '/profile',
@@ -66,4 +76,38 @@ export class ClientTabsComponent {
       icon: 'faSolidCircleInfo',
     },
   ];
+
+  coach: Menu[] = [
+    {
+      id: 1,
+      link: '/profile',
+      label: 'Perfil',
+      icon: 'faSolidUser',
+    },
+    {
+      id: 2,
+      link: '/clients',
+      label: 'Clientes',
+      icon: 'faSolidUserGroup',
+    },
+  ];
+
+  menus: Menu[] = [];
+  gridClass = 'grid-cols-4';
+
+  ngOnInit(): void {
+    this.getUser();
+  }
+
+  getUser() {
+    this._userService.user$.subscribe((user: User) => {
+      if (user.is_staff) {
+        this.menus = this.coach;
+        this.gridClass = 'grid-cols-2';
+      } else {
+        this.menus = this.client;
+        this.gridClass = 'grid-cols-4';
+      }
+    });
+  }
 }

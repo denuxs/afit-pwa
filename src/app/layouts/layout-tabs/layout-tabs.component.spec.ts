@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CoachTabsComponent } from './coach-tabs.component';
+import { LayoutTabsComponent } from './layout-tabs.component';
 
-describe('CoachTabsComponent', () => {
-  let component: CoachTabsComponent;
-  let fixture: ComponentFixture<CoachTabsComponent>;
+describe('LayoutTabsComponent', () => {
+  let component: LayoutTabsComponent;
+  let fixture: ComponentFixture<LayoutTabsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CoachTabsComponent]
+      imports: [LayoutTabsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CoachTabsComponent);
+    fixture = TestBed.createComponent(LayoutTabsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
