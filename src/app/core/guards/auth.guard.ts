@@ -1,13 +1,14 @@
-import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { map } from 'rxjs';
+import { inject } from '@angular/core';
 
 import { AuthService } from '../auth/auth.service';
-import { UserService } from 'app/core/services';
+import { UserService } from '../services';
 import { User } from 'app/domain';
+import { map } from 'rxjs';
 
-export const adminGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = (route, state) => {
   const _router: Router = inject(Router);
+
   const _authService = inject(AuthService);
   const _userService = inject(UserService);
 
@@ -24,6 +25,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
         return true;
       }
 
+      _authService.logout();
       _router.navigateByUrl('/signin');
       return false;
     }),
