@@ -28,7 +28,11 @@
       <p class="form-error">{{ checkErrors("password") }}</p>
     </div>
 
-    <button class="btn-primary mt-4" type="submit">
+    <button
+      class="btn-primary mt-4"
+      type="submit"
+      [disabled]="loginForm.disabled"
+    >
       <span *ngIf="!loginForm.disabled">Iniciar Sesión</span>
       <span *ngIf="loginForm.disabled">Cargando...</span>
     </button>

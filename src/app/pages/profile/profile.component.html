@@ -1,0 +1,45 @@
+<main class="px-4 py-6 md:container md:mx-auto">
+  @if (user) {
+    <div class="mb-4 flex flex-col items-center">
+      <div>
+        <p-image
+          [src]="avatar"
+          alt="user-{{ user.id }}]"
+          [preview]="true"
+          imageClass=" h-28 w-28 rounded-full border border-gray-200 object-cover"
+        />
+      </div>
+
+      @if (user.first_name && user.last_name) {
+        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+      }
+      <p class="text-sm text-gray-600">
+        @if (user.is_staff) {
+          Entrenador
+        } @else {
+          Atleta
+        }
+      </p>
+
+      <div class="mt-4 grid grid-cols-2 gap-1">
+        <button (click)="showModalProfile()" class="btn-primary">Editar</button>
+
+        <button
+          href="#"
+          (click)="logout()"
+          class="rounded-md border border-red-200 px-4 py-2 text-red-900"
+        >
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+
+    @if (!user.is_staff) {
+      <app-upload-image [contentType]="contentType" [objectId]="objectId" />
+    }
+  } @else {
+    <app-skeleton />
+  }
+</main>
+
+<p-toast [breakpoints]="{ '920px': { width: '70%' } }" />

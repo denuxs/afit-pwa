@@ -29,10 +29,10 @@ import { MessageService } from 'primeng/api';
 export class LoginComponent implements OnInit {
   private readonly _router = inject(Router);
   private readonly _formBuilder = inject(FormBuilder);
+  private readonly _messageService = inject(MessageService);
 
   private readonly _authService = inject(AuthService);
   private readonly _unsubscribeAll: Subject<any> = new Subject<any>();
-  private readonly _messageService = inject(MessageService);
 
   loginForm: FormGroup;
 
@@ -51,6 +51,8 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    this.loginForm.disable();
+
     const form = this.loginForm.value;
 
     this.login({ username: form.username, password: form.password });
@@ -64,15 +66,19 @@ export class LoginComponent implements OnInit {
         next: (response: any) => {
           const { user } = response;
 
-          if (user.is_staff) {
-            this._router.navigateByUrl('/coach/clients');
-            return;
-          }
+          this.loginForm.enable();
+          this._router.navigateByUrl('');
 
-          this._router.navigateByUrl('/profile');
+          // if (user.is_staff) {
+          //   this._router.navigateByUrl('/coach/clients');
+          //   return;
+          // }
+
+          // this._router.navigateByUrl('/profile');
         },
         error: (err) => {
-          this.loginForm.reset();
+          // this.loginForm.reset();
+          this.loginForm.enable();
           const { error } = err;
 
           this._messageService.add({
@@ -92,10 +98,6 @@ export class LoginComponent implements OnInit {
       if (form?.hasError('required')) {
         return 'Campo requerido';
       }
-
-      // if (form?.hasError('email')) {
-      //   return 'Value is invalid';
-      // }
     }
     return '';
   }

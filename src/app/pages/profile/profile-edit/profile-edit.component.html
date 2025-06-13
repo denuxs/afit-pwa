@@ -1,0 +1,45 @@
+<form [formGroup]="profileForm" (ngSubmit)="hanldleSubmit()">
+  <div class="mb-4 flex flex-col items-center justify-center">
+    <p-image
+      [src]="avatar"
+      alt="user-{{ user.id }}]"
+      [preview]="true"
+      imageClass="h-28 w-28 rounded-full border border-gray-200 object-cover"
+    />
+    <input
+      type="file"
+      accept="image/*"
+      (change)="uploadImage($event)"
+      class="hidden"
+      #fileInput
+    />
+    <button
+      type="button"
+      (click)="fileInput.click()"
+      class="px-4 py-2 text-blue-700"
+    >
+      @if (user.avatar) {
+        Cambiar imagen
+      } @else {
+        Subir imagen
+      }
+    </button>
+  </div>
+
+  <div class="mb-2">
+    <label for="username" class="form-label">Usuario</label>
+    <input type="text" fluid="true" pInputText formControlName="username" />
+  </div>
+
+  <div class="mb-2">
+    <label for="first_name" class="form-label">Nombres</label>
+    <input type="text" fluid="true" pInputText formControlName="first_name" />
+  </div>
+
+  <div class="mb-2">
+    <label for="last_name" class="form-label">Apellidos</label>
+    <input type="text" fluid="true" pInputText formControlName="last_name" />
+  </div>
+
+  <button class="btn-primary mt-4" type="submit">Guardar</button>
+</form>

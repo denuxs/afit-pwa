@@ -1,0 +1,42 @@
+<main class="container px-4 py-6 md:container md:mx-auto">
+  @if (clients$ | async; as clients) {
+    @if (clients.length === 0) {
+      <div
+        class="mb-2 flex h-28 items-center justify-center rounded-md border border-gray-200"
+      >
+        <p>No hay Clientes</p>
+      </div>
+    }
+
+    <p class="mb-2 px-4 text-gray-600">{{ clients.length }} clientes</p>
+
+    @for (client of clients; track client.id) {
+      @let user = client.user;
+      <div
+        class="flex items-center justify-between gap-2 border-b px-4 py-4 hover:bg-gray-100"
+      >
+        <div class="flex gap-2">
+          <div>
+            <app-prime-avatar [avatar]="user.avatar"></app-prime-avatar>
+          </div>
+          <div>
+            <h2 class="text-blue-700">
+              <a
+                [routerLink]="['/workouts']"
+                [queryParams]="{ client: client.id }"
+                href="#"
+                >{{ client.fullname }}</a
+              >
+            </h2>
+            <p class="text-sm text-gray-600">{{ user.username }}</p>
+          </div>
+        </div>
+        <div>
+          <ng-icon name="faSolidChevronRight" />
+        </div>
+      </div>
+    }
+  } @else {
+    <app-skeleton />
+  }
+</main>
