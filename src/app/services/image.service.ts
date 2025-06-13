@@ -17,8 +17,9 @@ export class ImageService {
   fetchImages(params?: {
     object_id: number;
     content_type: number;
-  }): Observable<ImageList> {
-    return this._httpClient.get<ImageList>(this._api, { params });
+    paginator?: any;
+  }): Observable<Image[]> {
+    return this._httpClient.get<Image[]>(this._api, { params });
   }
 
   saveImage(form: FormData): Observable<Image> {

@@ -18,6 +18,10 @@ export class ClientService {
     return this._httpClient.get<Client[]>(this._api, { params });
   }
 
+  get(id: number): Observable<Client> {
+    return this._httpClient.get<Client>(this._api + `${id}/`);
+  }
+
   workouts(): Observable<Workout[]> {
     return this._httpClient.get<Workout[]>(this._api + 'workouts/');
   }
