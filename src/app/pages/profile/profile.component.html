@@ -14,7 +14,7 @@
         <h2>{{ user.first_name }} {{ user.last_name }}</h2>
       }
       <p class="text-sm text-gray-600">
-        @if (user.is_staff) {
+        @if (user.role === "coach") {
           Entrenador
         } @else {
           Atleta
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    @if (!user.is_staff) {
+    @if (user.role == "client") {
       <app-upload-image [contentType]="contentType" [objectId]="objectId" />
     }
   } @else {

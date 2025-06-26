@@ -13,24 +13,22 @@ import { User } from 'app/domain';
 import { UserService } from 'app/core/services';
 
 import { InputTextModule } from 'primeng/inputtext';
-import { ToggleButtonModule } from 'primeng/togglebutton';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
-
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-profile-edit',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    ToggleButtonModule,
-    ImageModule,
-    InputTextModule,
-  ],
+  imports: [ReactiveFormsModule, ToastModule, ImageModule, InputTextModule],
+  providers: [MessageService],
   templateUrl: './profile-edit.component.html',
   styleUrl: './profile-edit.component.scss',
 })
 export class ProfileEditComponent implements OnInit {
   private readonly _formBuilder = inject(FormBuilder);
+  private readonly _messageService = inject(MessageService);
+
   private readonly _unsubscribeAll: Subject<any> = new Subject<any>();
 
   private readonly _userService = inject(UserService);
@@ -93,15 +91,21 @@ export class ProfileEditComponent implements OnInit {
     this.saveProfile(this.user.id, formData);
   }
 
-  saveProfile(user: number, form: any) {
+  saveProfile(userId: number, form: FormData) {
     this._userService
-      .updateUser(user, form)
+      .update(userId, form)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe({
-        next: (response: any) => {
-          this._userService.user = response;
+        next: (user: User) => {
+          this._userService.user = user;
 
-          this.close(true);
+          this._messageService.add({
+            severity: 'success',
+            summary: 'Actualizar',
+            detail: 'Perfil actualizado con éxito',
+          });
+
+          // this.ref.close();
         },
       });
   }
@@ -133,10 +137,6 @@ export class ProfileEditComponent implements OnInit {
 
       reader.readAsDataURL(file);
     });
-  }
-
-  close(success: boolean) {
-    this.ref.close(success);
   }
 
   ngOnDestroy(): void {

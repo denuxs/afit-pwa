@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { ToastModule } from 'primeng/toast';
 import { ImageModule } from 'primeng/image';
@@ -14,12 +14,7 @@ import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
 import { UploadImageComponent } from 'app/components/upload-image/upload-image.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 
-import {
-  DialogService,
-  DynamicDialog,
-  DynamicDialogRef,
-} from 'primeng/dynamicdialog';
-import { MessageService } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-profile',
@@ -31,7 +26,7 @@ import { MessageService } from 'primeng/api';
     UploadImageComponent,
     SkeletonComponent,
   ],
-  providers: [DialogService, MessageService],
+  providers: [DialogService],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -41,13 +36,11 @@ export class ProfileComponent implements OnInit {
   private readonly _authService = inject(AuthService);
 
   private readonly _dialogService = inject(DialogService);
-  private readonly _messageService = inject(MessageService);
 
   private readonly _unsubscribeAll: Subject<any> = new Subject<any>();
 
   ref: DynamicDialogRef | undefined;
 
-  user$!: Observable<User>;
   user!: User;
   avatar = 'default.jpg';
 
@@ -74,33 +67,21 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  logout(): void {
-    this._authService.logout();
-    this._router.navigate(['signin']);
-  }
-
   showModalProfile() {
     this.ref = this._dialogService.open(ProfileEditComponent, {
-      header: 'Editar Perfil',
       width: '100%',
+      maximizable: true,
       modal: true,
-      position: 'top',
       closable: true,
-      data: {
-        item: 0,
-      },
+      resizable: false,
     });
 
-    this.ref.onClose.subscribe((data: any) => {
-      if (data) {
-        this._messageService.add({
-          severity: 'success',
-          summary: 'Actualizar',
-          detail: 'Perfil actualizado con éxito',
-          life: 3000,
-        });
-      }
-    });
+    this._dialogService.getInstance(this.ref).maximize();
+  }
+
+  logout(): void {
+    this._authService.logout();
+    this._router.navigate(['/signin']);
   }
 
   ngOnDestroy(): void {

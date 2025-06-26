@@ -11,11 +11,11 @@
       accept="image/*"
       (change)="uploadImage($event)"
       class="hidden"
-      #fileInput
+      #file
     />
     <button
       type="button"
-      (click)="fileInput.click()"
+      (click)="file.click()"
       class="px-4 py-2 text-blue-700"
     >
       @if (user.avatar) {
@@ -43,3 +43,5 @@
 
   <button class="btn-primary mt-4" type="submit">Guardar</button>
 </form>
+
+<p-toast position="bottom-center" />
