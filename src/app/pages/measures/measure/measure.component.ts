@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { map, Observable, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DatePipe, AsyncPipe } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { Measure } from 'app/domain';
 import { MeasuresService } from 'app/services/measures.service';
 
 import { ImageModule } from 'primeng/image';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { UploadImageComponent } from 'app/components/upload-image/upload-image.component';
 import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
@@ -18,7 +18,6 @@ import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
   imports: [
     DatePipe,
     AsyncPipe,
-    RouterLink,
     ImageModule,
     ConfirmDialogModule,
     UploadImageComponent,
@@ -28,7 +27,9 @@ import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
   styleUrl: './measure.component.scss',
 })
 export class MeasureComponent implements OnInit {
-  private readonly _route = inject(ActivatedRoute);
+  private readonly _config = inject(DynamicDialogConfig);
+  private readonly _ref = inject(DynamicDialogRef);
+
   private readonly _measureService = inject(MeasuresService);
 
   measure$!: Observable<Measure>;
@@ -37,10 +38,18 @@ export class MeasureComponent implements OnInit {
   objectId = 0;
 
   ngOnInit(): void {
-    const measureId = this._route.snapshot.paramMap.get('id');
+    const config = this._config.data;
+    const { measureId } = config;
+
     if (measureId) {
       this.objectId = Number(measureId);
-      this.measure$ = this._measureService.showMeasure(Number(measureId));
+      this.measure$ = this._measureService.get(Number(measureId));
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this._ref) {
+      this._ref.close();
     }
   }
 }

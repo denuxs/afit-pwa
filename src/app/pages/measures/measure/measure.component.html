@@ -1,11 +1,5 @@
-<main class="px-4 py-4 md:container md:mx-auto">
+<main class="py-4 md:container md:mx-auto">
   @if (measure$ | async; as measure) {
-    <nav class="mb-4">
-      <a href="#" routerLink="/measures">
-        <i class="pi pi-arrow-left"></i>
-      </a>
-    </nav>
-
     <app-upload-image [contentType]="contentType" [objectId]="objectId" />
 
     @if (measure.comment) {

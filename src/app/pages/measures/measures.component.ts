@@ -1,17 +1,18 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 
-import { Measure, MeasureList, User } from 'app/domain';
-import { ClientService, MeasuresService } from 'app/services';
+import { Measure, User } from 'app/domain';
+import { MeasuresService } from 'app/services';
 import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
 import { UserService } from 'app/core/services';
 
 import { ChartModule } from 'primeng/chart';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { MeasureComponent } from './measure/measure.component';
 
 interface LineChartDataset {
   label: string;
@@ -27,18 +28,20 @@ interface LineChart {
 @Component({
   selector: 'app-measures',
   standalone: true,
-  imports: [DatePipe, ChartModule, AsyncPipe, SkeletonComponent, RouterLink],
+  imports: [DatePipe, ChartModule, AsyncPipe, SkeletonComponent],
+  providers: [DialogService],
   templateUrl: './measures.component.html',
   styleUrl: './measures.component.scss',
 })
 export class MeasuresComponent implements OnInit {
+  private readonly _dialogService = inject(DialogService);
+
   private readonly _measureService = inject(MeasuresService);
   private readonly _userService = inject(UserService);
-  private readonly _clientService = inject(ClientService);
 
-  measures$!: Observable<MeasureList>;
-  measures: Measure[] = [];
-  user!: User;
+  ref: DynamicDialogRef | undefined;
+
+  measures$!: Observable<Measure[]>;
 
   dataChart: LineChart = {
     labels: [],
@@ -63,22 +66,22 @@ export class MeasuresComponent implements OnInit {
 
   getUser() {
     this._userService.user$.subscribe((user: User) => {
-      this.user = user;
-      this.getMeasure(user.client);
+      this.getMeasure(user.id);
     });
   }
 
-  getMeasure(clientId: number) {
+  getMeasure(userId: number) {
     const params: any = {
-      client: clientId,
+      user: userId,
       is_active: true,
       ordering: '-id',
+      paginator: null,
     };
 
-    this.measures$ = this._measureService.fetchMeasures(params).pipe(
-      map((data) => {
-        this.setLineChart(data.results);
-        return data;
+    this.measures$ = this._measureService.all(params).pipe(
+      switchMap((measures: Measure[]) => {
+        this.setLineChart(measures);
+        return of(measures);
       }),
     );
   }
@@ -106,5 +109,19 @@ export class MeasuresComponent implements OnInit {
         },
       ],
     };
+  }
+
+  openMeasureModal(measureId: number) {
+    this.ref = this._dialogService.open(MeasureComponent, {
+      header: '',
+      maximizable: true,
+      appendTo: 'body',
+      closable: true,
+      data: {
+        measureId: measureId,
+      },
+    });
+
+    this._dialogService.getInstance(this.ref).maximize();
   }
 }
