@@ -16,13 +16,7 @@ import { UserService } from 'app/core/services';
 import { User } from 'app/domain';
 
 import { NavbarComponent } from '../navbar/navbar.component';
-
-interface Menu {
-  id: number;
-  link: string;
-  label: string;
-  icon: string;
-}
+import { CLIENT_MENU, COACH_MENU, Menu } from '../menu';
 
 @Component({
   selector: 'app-layout-tabs',
@@ -50,48 +44,6 @@ interface Menu {
 export class LayoutTabsComponent implements OnInit {
   private readonly _userService = inject(UserService);
 
-  client: Menu[] = [
-    {
-      id: 1,
-      link: '/profile',
-      label: 'Perfil',
-      icon: 'faSolidUser',
-    },
-    {
-      id: 2,
-      link: '/workouts',
-      label: 'Rutinas',
-      icon: 'faSolidDumbbell',
-    },
-    {
-      id: 3,
-      link: '/measures',
-      label: 'Medidas',
-      icon: 'faSolidWeightScale',
-    },
-    {
-      id: 4,
-      link: '/about',
-      label: 'Acerca',
-      icon: 'faSolidCircleInfo',
-    },
-  ];
-
-  coach: Menu[] = [
-    {
-      id: 1,
-      link: '/profile',
-      label: 'Perfil',
-      icon: 'faSolidUser',
-    },
-    {
-      id: 2,
-      link: '/clients',
-      label: 'Clientes',
-      icon: 'faSolidUserGroup',
-    },
-  ];
-
   menus: Menu[] = [];
   gridClass = 'grid-cols-4';
 
@@ -101,11 +53,11 @@ export class LayoutTabsComponent implements OnInit {
 
   getUser() {
     this._userService.user$.subscribe((user: User) => {
-      if (user.is_staff) {
-        this.menus = this.coach;
+      if (user.role === 'coach') {
+        this.menus = COACH_MENU;
         this.gridClass = 'grid-cols-2';
       } else {
-        this.menus = this.client;
+        this.menus = CLIENT_MENU;
         this.gridClass = 'grid-cols-4';
       }
     });
