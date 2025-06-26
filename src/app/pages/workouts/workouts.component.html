@@ -7,8 +7,8 @@
     </nav>
   }
 
-  @if (workouts$ | async; as workouts) {
-    @if (workouts.length === 0) {
+  @if (routines$ | async; as routines) {
+    @if (routines.length === 0) {
       <div
         class="flex h-28 items-center justify-center rounded-md border border-gray-200"
       >
@@ -16,29 +16,27 @@
       </div>
     }
 
-    @for (workout of workouts; track workout.id) {
-      <p class="mb-2 text-gray-600">{{ workout.routines.length }} rutinas</p>
+    <p class="mb-2 text-gray-600">{{ routines.length }} rutinas</p>
 
-      @for (routine of workout.routines; track routine.id) {
-        <div
-          class="mb-2 flex items-center justify-between gap-2 rounded-md border px-4 py-4 hover:bg-gray-100"
-        >
-          <div>
-            <h2 class="text-blue-700">
-              <a [routerLink]="['/routines', routine.id]" href="#">
-                {{ routine.title }}
-              </a>
-            </h2>
+    @for (routine of routines; track routine.id) {
+      <div
+        class="mb-2 flex items-center justify-between gap-2 rounded-md border px-4 py-4 hover:bg-gray-100"
+      >
+        <div>
+          <h2 class="text-blue-700">
+            <a [routerLink]="['/routines', routine.routine.id]" href="#">
+              {{ routine.routine.title }}
+            </a>
+          </h2>
 
-            <p class="text-sm text-gray-600">
-              {{ routine.exercises.length }} ejercicios
-            </p>
-          </div>
-          <div>
-            <ng-icon name="faSolidChevronRight" />
-          </div>
+          <p class="text-sm text-gray-600">
+            {{ routine.routine.exercises.length }} ejercicios
+          </p>
         </div>
-      }
+        <div>
+          <ng-icon name="faSolidChevronRight" />
+        </div>
+      </div>
     }
   } @else {
     <app-skeleton />

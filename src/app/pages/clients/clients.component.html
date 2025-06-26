@@ -11,13 +11,12 @@
     <p class="mb-2 px-4 text-gray-600">{{ clients.length }} clientes</p>
 
     @for (client of clients; track client.id) {
-      @let user = client.user;
       <div
         class="flex items-center justify-between gap-2 border-b px-4 py-4 hover:bg-gray-100"
       >
         <div class="flex gap-2">
           <div>
-            <app-prime-avatar [avatar]="user.avatar"></app-prime-avatar>
+            <app-prime-avatar [avatar]="client.avatar"></app-prime-avatar>
           </div>
           <div>
             <h2 class="text-blue-700">
@@ -28,7 +27,7 @@
                 >{{ client.fullname }}</a
               >
             </h2>
-            <p class="text-sm text-gray-600">{{ user.username }}</p>
+            <p class="text-sm text-gray-600">{{ client.username }}</p>
           </div>
         </div>
         <div>

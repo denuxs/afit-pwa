@@ -35,7 +35,7 @@ export class RoutineComponent {
   }
 
   getRoutine(routineId: number) {
-    this.routine$ = this._routineService.showRoutine(routineId);
+    this.routine$ = this._routineService.get(routineId);
   }
 
   byPassHTML(html: string) {

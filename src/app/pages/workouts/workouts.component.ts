@@ -4,14 +4,13 @@ import { AsyncPipe } from '@angular/common';
 import { Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
-import { User, Workout } from 'app/domain';
+import { User, UserRoutine } from 'app/domain';
+import { UserService } from 'app/core/services';
 
 import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
-import { ClientService, WorkoutService } from 'app/services';
 
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidChevronRight } from '@ng-icons/font-awesome/solid';
-import { UserService } from 'app/core/services';
 
 @Component({
   selector: 'app-workouts',
@@ -29,11 +28,9 @@ export class WorkoutsComponent implements OnInit {
   private readonly _route = inject(ActivatedRoute);
   private readonly _location = inject(Location);
 
-  private readonly _clientService = inject(ClientService);
-  private readonly _workoutService = inject(WorkoutService);
   private readonly _userService = inject(UserService);
 
-  workouts$!: Observable<Workout[]>;
+  routines$!: Observable<UserRoutine[]>;
   showBackButton = false;
 
   ngOnInit(): void {
@@ -41,7 +38,7 @@ export class WorkoutsComponent implements OnInit {
     const client = params['client'];
 
     if (client) {
-      this.getWorkouts(client);
+      this.getRoutines(client);
       this.showBackButton = true;
     } else {
       this.getUser();
@@ -50,24 +47,17 @@ export class WorkoutsComponent implements OnInit {
 
   getUser() {
     this._userService.user$.subscribe((user: User) => {
-      this.getWorkouts(user.client);
+      if (user) {
+        this.getRoutines(user.id);
+      }
     });
   }
 
-  getWorkouts(clientId: number) {
-    const params = {
-      paginator: null,
-      client: clientId,
-      is_active: true,
-    };
-    this.workouts$ = this._workoutService.all(params);
+  getRoutines(clientId: number) {
+    this.routines$ = this._userService.routines(clientId);
   }
 
   goBack() {
     this._location.back();
   }
-
-  // getWorkouts() {
-  //   this.workouts$ = this._clientService.workouts();
-  // }
 }

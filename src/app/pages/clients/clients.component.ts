@@ -3,8 +3,7 @@ import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-import { Client, User } from 'app/domain';
-import { ClientService } from 'app/services';
+import { User } from 'app/domain';
 import { UserService } from 'app/core/services';
 
 import { SkeletonComponent } from 'app/components/skeleton/skeleton.component';
@@ -33,10 +32,8 @@ import { faSolidChevronRight } from '@ng-icons/font-awesome/solid';
 })
 export class ClientsComponent implements OnInit {
   private readonly _userService = inject(UserService);
-  private readonly _clientService = inject(ClientService);
 
-  clients$!: Observable<Client[]>;
-  user!: User;
+  clients$!: Observable<User[]>;
 
   ngOnInit(): void {
     this.getUser();
@@ -44,16 +41,15 @@ export class ClientsComponent implements OnInit {
 
   getUser() {
     this._userService.user$.subscribe((user: User) => {
-      this.user = user;
-      this.getClients();
+      this.getClients(user.id);
     });
   }
 
-  getClients() {
+  getClients(userId: number) {
     const params = {
       paginator: null,
-      coach: this.user.id,
+      coach: userId,
     };
-    this.clients$ = this._clientService.all(params);
+    this.clients$ = this._userService.all(params);
   }
 }

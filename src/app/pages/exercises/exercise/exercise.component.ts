@@ -5,15 +5,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 
-import { TabsModule } from 'primeng/tabs';
-
 import { RoutineExerciseService } from 'app/services';
-// import { CommentsComponent } from '../comments/comments.component';
+import { RoutineExercise } from 'app/domain';
 
 @Component({
   selector: 'app-exercise',
   standalone: true,
-  imports: [AsyncPipe, TabsModule],
+  imports: [AsyncPipe],
   templateUrl: './exercise.component.html',
   styleUrl: './exercise.component.scss',
 })
@@ -24,7 +22,7 @@ export class ExerciseComponent implements OnInit {
 
   private readonly _exerciseService = inject(RoutineExerciseService);
 
-  exercise$!: Observable<any>;
+  exercise$!: Observable<RoutineExercise>;
 
   constructor() {}
 
@@ -37,7 +35,7 @@ export class ExerciseComponent implements OnInit {
   }
 
   getexercise(excerciseId: number) {
-    this.exercise$ = this._exerciseService.getExercise(excerciseId);
+    this.exercise$ = this._exerciseService.get(excerciseId);
   }
 
   byPassHTML(html: string) {
