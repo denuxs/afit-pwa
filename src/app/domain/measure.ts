@@ -22,10 +22,3 @@ export interface Measure {
     glutes: number;
   };
 }
-
-export interface MeasureList {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: Measure[];
-}

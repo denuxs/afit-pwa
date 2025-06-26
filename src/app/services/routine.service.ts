@@ -12,7 +12,7 @@ export class RoutineService {
   private readonly _httpClient = inject(HttpClient);
   private _api: string = environment.BACKEND_API + '/routines/';
 
-  showRoutine(id: number): Observable<Routine> {
+  get(id: number): Observable<Routine> {
     return this._httpClient.get<Routine>(`${this._api}${id}/`);
   }
 }

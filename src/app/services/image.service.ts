@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { Image, ImageList } from 'app/domain';
+import { Image } from 'app/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class ImageService {
 
   constructor() {}
 
-  fetchImages(params?: {
+  all(params?: {
     object_id: number;
     content_type: number;
     paginator?: any;
@@ -22,11 +22,11 @@ export class ImageService {
     return this._httpClient.get<Image[]>(this._api, { params });
   }
 
-  saveImage(form: FormData): Observable<Image> {
+  create(form: FormData): Observable<Image> {
     return this._httpClient.post<Image>(this._api, form);
   }
 
-  deleteImage(id: number): Observable<Image> {
+  delete(id: number): Observable<Image> {
     return this._httpClient.delete<Image>(this._api + `${id}/`);
   }
 }

@@ -1,3 +1,5 @@
+import { Routine } from './routine';
+
 export interface User {
   id: number;
   username: string;
@@ -5,17 +7,21 @@ export interface User {
   avatar: string;
   first_name: string;
   last_name: string;
+  fullname: string;
+  role: string;
+  coach: User;
   is_superuser: boolean;
   is_staff: boolean;
   is_active: boolean;
   date_joined: Date;
   last_login: Date;
-  client: number;
+}
 
-  phone: number;
-  age: number;
-  weight: number;
-  height: number;
-  experience_level: string;
-  gender: string;
+export interface UserRoutine {
+  id: number;
+  user: number;
+  order: number;
+  notes: string;
+  routine: Routine;
+  created: Date;
 }

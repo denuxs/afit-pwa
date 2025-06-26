@@ -1,9 +1,8 @@
-import { Comment } from './comment';
-
 interface Catalog {
   id: number;
   name: string;
   key: string;
+  image: string;
   created: Date;
 }
 
@@ -14,16 +13,21 @@ export interface Exercise {
   image: string;
   equipment: Catalog;
   muscle: Catalog;
-  exercises_count: number;
-  sets: number;
-  repts: number;
-  comments: Comment[];
+  // exercises_count: number;
   created: Date;
 }
 
-export interface ExerciseList {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: Exercise[];
+interface Sets {
+  rept: number;
+  weight: number;
+  sets: number;
+}
+
+export interface RoutineExercise {
+  id: number;
+  description: string;
+  order: number;
+  routine: number;
+  exercise: Exercise;
+  sets: Sets[];
 }
