@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, ReplaySubject, tap, throwError } from 'rxjs';
 
 import { environment } from 'environments/environment';
-import { User, Workout } from 'app/domain';
+import { Routine, User, UserRoutine } from 'app/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -25,27 +25,32 @@ export class UserService {
   }
 
   profile(): Observable<User> {
-    return this._httpClient.get<User>(this._api + 'me/').pipe(
-      tap((user) => {
-        this._user.next(user);
-      }),
-    );
+    return this._httpClient
+      .get<User>(this._api + 'me/')
+      .pipe(catchError(this.handleError))
+      .pipe(
+        tap((user) => {
+          this._user.next(user);
+        }),
+      );
   }
 
-  getUsers(): Observable<User[]> {
-    return this._httpClient.get<User[]>(this._api);
+  all(params?: any): Observable<User[]> {
+    return this._httpClient
+      .get<User[]>(this._api, { params })
+      .pipe(catchError(this.handleError));
   }
 
-  getUser(userId: number): Observable<User> {
-    return this._httpClient.get<User>(this._api + `${userId}/`);
+  update(id: number, form: FormData): Observable<User> {
+    return this._httpClient
+      .patch<User>(this._api + `${id}/`, form)
+      .pipe(catchError(this.handleError));
   }
 
-  getWorkouts(): Observable<Workout[]> {
-    return this._httpClient.get<Workout[]>(this._api + 'workouts/');
-  }
-
-  updateUser(id: number, form: FormData): Observable<User> {
-    return this._httpClient.patch<User>(this._api + `${id}/`, form);
+  routines(clientId: number): Observable<UserRoutine[]> {
+    return this._httpClient
+      .get<UserRoutine[]>(this._api + `${clientId}/routines/`)
+      .pipe(catchError(this.handleError));
   }
 
   saveFirebaseToken(form: {
@@ -59,7 +64,9 @@ export class UserService {
     );
   }
 
-  savePhoto(id: number, form: FormData): Observable<User> {
-    return this._httpClient.patch<User>(this._api + `${id}/`, form);
+  private handleError(error: HttpErrorResponse) {
+    return throwError(
+      () => new Error('An error occurred while fetching data.'),
+    );
   }
 }

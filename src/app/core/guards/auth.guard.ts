@@ -13,7 +13,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const _userService = inject(UserService);
 
   if (!_authService.check()) {
-    _router.navigateByUrl('/signin');
+    _router.navigate(['/signin']);
     return false;
   }
 
@@ -26,7 +26,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       }
 
       _authService.logout();
-      _router.navigateByUrl('/signin');
+      _router.navigate(['/signin']);
       return false;
     }),
   );

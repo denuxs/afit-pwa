@@ -41,11 +41,13 @@ export class AuthService {
       .pipe(
         tap((response: LoginResponse) => {
           const { access, refresh, user } = response;
-          this.accessToken = access;
-          this.refreshToken = refresh;
-          this._userService.user = user;
 
-          this._authenticated = true;
+          if (user.role == 'coach' || user.role == 'client') {
+            this.accessToken = access;
+            this.refreshToken = refresh;
+            this._userService.user = user;
+            this._authenticated = true;
+          }
         }),
       );
   }
@@ -53,6 +55,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('faafittok');
     localStorage.removeItem('farfittok');
+    this._authenticated = false;
   }
 
   check(): boolean {
