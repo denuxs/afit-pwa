@@ -5,7 +5,7 @@
 @import "primeicons/primeicons.css";
 
 // @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 // .poppins-regular {
 //   font-family: "Poppins", serif;
@@ -31,15 +31,15 @@
 // }
 
 h1 {
-  @apply font-roboto text-2xl font-bold;
+  @apply text-2xl font-bold;
 }
 
 h2 {
-  @apply font-roboto text-lg font-bold;
+  @apply text-xl font-semibold;
 }
 
 h3 {
-  @apply font-roboto text-lg font-bold text-slate-700;
+  @apply text-lg font-bold text-slate-700;
 }
 
 .active-tab {
