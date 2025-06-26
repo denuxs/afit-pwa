@@ -28,14 +28,13 @@
       <p class="form-error">{{ checkErrors("password") }}</p>
     </div>
 
-    <button
-      class="btn-primary mt-4"
+    <p-button
+      [disabled]="loginForm.invalid"
+      [loading]="loading"
+      fluid="true"
       type="submit"
-      [disabled]="loginForm.disabled"
-    >
-      <span *ngIf="!loginForm.disabled">Iniciar Sesión</span>
-      <span *ngIf="loginForm.disabled">Cargando...</span>
-    </button>
+      label="Iniciar Sesión"
+    />
   </form>
 </div>
 <p-toast [breakpoints]="{ '920px': { width: '70%' } }" />

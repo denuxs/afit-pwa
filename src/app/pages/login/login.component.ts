@@ -17,11 +17,18 @@ import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, Toast, InputTextModule, PasswordModule],
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    Toast,
+    InputTextModule,
+    PasswordModule,
+  ],
   providers: [MessageService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -35,6 +42,9 @@ export class LoginComponent implements OnInit {
   private readonly _unsubscribeAll: Subject<any> = new Subject<any>();
 
   loginForm: FormGroup;
+  loading = false;
+
+  ROLES = ['coach', 'client'];
 
   constructor() {
     this.loginForm = this._formBuilder.group({
@@ -52,6 +62,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.loginForm.disable();
+    this.loading = true;
 
     const form = this.loginForm.value;
 
@@ -66,29 +77,34 @@ export class LoginComponent implements OnInit {
         next: (response: any) => {
           const { user } = response;
 
+          this.loading = false;
           this.loginForm.enable();
-          this._router.navigateByUrl('');
 
-          // if (user.is_staff) {
-          //   this._router.navigateByUrl('/coach/clients');
-          //   return;
-          // }
+          const roles = this.ROLES;
 
-          // this._router.navigateByUrl('/profile');
+          if (roles.includes(user.role)) {
+            this._router.navigate(['']);
+            return;
+          }
+
+          this.showMessage('Usuario con acceso restringido');
         },
-        error: (err) => {
-          // this.loginForm.reset();
+        error: () => {
+          this.loading = false;
           this.loginForm.enable();
-          const { error } = err;
 
-          this._messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error.detail,
-            life: 3000,
-          });
+          this.showMessage('Ususario o contraseña incorrectos');
         },
       });
+  }
+
+  showMessage(message: string) {
+    this._messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: message,
+      life: 3000,
+    });
   }
 
   checkErrors(field: string): string {
