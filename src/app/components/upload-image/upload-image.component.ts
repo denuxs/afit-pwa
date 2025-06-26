@@ -3,16 +3,25 @@ import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { ImageService } from 'app/services';
-import { Image, ImageList } from 'app/domain';
+import { Image } from 'app/domain';
 
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ImageModule } from 'primeng/image';
+import { CarouselModule } from 'primeng/carousel';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-upload-image',
   standalone: true,
-  imports: [NgOptimizedImage, ImageModule, ConfirmDialogModule, AsyncPipe],
+  imports: [
+    NgOptimizedImage,
+    CarouselModule,
+    ImageModule,
+    ConfirmDialogModule,
+    AsyncPipe,
+    ButtonModule,
+  ],
   providers: [ConfirmationService],
   templateUrl: './upload-image.component.html',
   styleUrl: './upload-image.component.scss',
@@ -35,7 +44,7 @@ export class UploadImageComponent implements OnInit {
   }
 
   getImages(object_id: number, contentType: number) {
-    this.images$ = this._imageService.fetchImages({
+    this.images$ = this._imageService.all({
       object_id: object_id,
       content_type: contentType,
       paginator: null,
@@ -58,19 +67,16 @@ export class UploadImageComponent implements OnInit {
 
   saveImage(form: FormData): void {
     this._imageService
-      .saveImage(form)
+      .create(form)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe({
-        next: (image: Image) => {
+        next: () => {
           this.getImages(this.objectId, this.contentType);
-        },
-        error: (err) => {
-          console.log(err);
         },
       });
   }
 
-  handleDelete(imageId: number): void {
+  handleConfirmDelete(imageId: number): void {
     this._confirmationService.confirm({
       message: 'Se eliminará este imagen. ¿Está seguro?',
       header: 'Confirmar',
@@ -80,19 +86,20 @@ export class UploadImageComponent implements OnInit {
       acceptButtonStyleClass: 'p-button-info',
       rejectButtonStyleClass: 'p-button-outlined p-button-secondary',
       accept: () => {
-        this._imageService
-          .deleteImage(imageId)
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe({
-            next: () => {
-              this.getImages(this.objectId, this.contentType);
-            },
-            error: (err) => {
-              console.log(err);
-            },
-          });
+        this.handleDelete(imageId);
       },
     });
+  }
+
+  handleDelete(imageId: number): void {
+    this._imageService
+      .delete(imageId)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe({
+        next: () => {
+          this.getImages(this.objectId, this.contentType);
+        },
+      });
   }
 
   ngOnDestroy(): void {

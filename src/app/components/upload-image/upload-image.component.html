@@ -5,40 +5,47 @@
   id="image"
   name="image"
   class="hidden"
-  #filePost
+  #file
 />
 
-<div class="grid grid-cols-3 gap-1 md:grid-cols-4">
-  @if (images$ | async; as data) {
-    @for (image of data; track image.id) {
-      <div class="relative">
+@if (images$ | async; as data) {
+  <p-carousel
+    [value]="data"
+    [numVisible]="2"
+    [numScroll]="2"
+    [circular]="false"
+  >
+    <ng-template let-image #item>
+      <div class="relative mr-2">
         <p-image
           [src]="image.image"
           alt="image-{{ image.id }}]"
           [preview]="true"
-          imageClass="h-40 w-full object-cover"
+          appendTo="body"
+          styleClass="w-full h-40"
+          imageClass="w-full object-cover"
         />
-        <button
-          type="button"
-          (click)="handleDelete(image.id)"
-          class="absolute right-2 top-2 rounded-full bg-red-500 px-2 py-1 text-white hover:bg-red-600"
-        >
-          <i class="pi pi-trash"></i>
-        </button>
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          (onClick)="handleConfirmDelete(image.id)"
+          class="absolute right-0 top-0 text-white"
+        />
       </div>
-    }
-  }
-  <div
-    class="flex h-40 w-full items-center justify-center rounded-md border border-gray-200"
+    </ng-template>
+  </p-carousel>
+}
+
+<div
+  class="flex h-20 w-full items-center justify-center rounded-md border border-gray-200"
+>
+  <button
+    type="button"
+    class="flex flex-col items-center justify-center text-blue-700"
+    (click)="file.click()"
   >
-    <button
-      type="button"
-      class="flex flex-col items-center justify-center text-blue-700"
-      (click)="filePost.click()"
-    >
-      <i class="pi pi-camera"></i>
-      <span>Subir imagen</span>
-    </button>
-  </div>
+    <i class="pi pi-camera" style="font-size: 1.5rem"></i>
+    <span>Subir Imagen</span>
+  </button>
 </div>
 <p-confirmdialog />
