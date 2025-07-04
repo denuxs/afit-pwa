@@ -3,6 +3,7 @@
 PWA para ver rutinas de gimnasio de clientes (**En desarrollo**)
 
 El API esta en Django 5 [github.com/denuxs/gym_api](https://github.com/denuxs/gym_api)
+Usuario: coach / contraseña: demodemo25
 
 ### Paquetes
 
