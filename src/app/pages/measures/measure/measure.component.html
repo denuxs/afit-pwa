@@ -1,0 +1,148 @@
+<main class="mt-6 px-4 md:mx-auto md:w-1/3">
+  <nav class="mb-4">
+    <button type="button" (click)="goBack()">
+      <i class="pi pi-arrow-left"></i> Regresar
+    </button>
+  </nav>
+
+  @if (measure$ | async; as measure) {
+    <app-upload-image [contentType]="contentType" [objectId]="objectId" />
+
+    @if (measure.comment) {
+      <div class="mb-2 mt-4">
+        <p class="text-gray-600">{{ measure.comment }}</p>
+      </div>
+    }
+
+    <table class="mb-6 mt-4 w-full text-left">
+      <tbody>
+        <tr class="odd:bg-white even:bg-gray-100">
+          <td scope="row" class="px-4 py-2">Fecha</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.created | date: "mediumDate" }}
+          </td>
+        </tr>
+        <tr class="odd:bg-white even:bg-gray-100">
+          <td scope="row" class="px-4 py-2">Peso Corporal</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.weight }} lb
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Espalda</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.back }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Pecho</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.chest }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Abdomen</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.abdomen }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Cintura</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.waist }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Caderas</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.hips }} cm
+          </td>
+        </tr>
+        <tr
+          class="border border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Bicep Izquierdo</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.left_bicep }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Bicep Derecho</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.right_bicep }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Antebrazo Izquierdo</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.left_forearm }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Antebrazo Derecho</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.right_forearm }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Pierna Izquierda</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.left_thigh }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Pierna Derecha</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.right_thigh }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Pantorilla Izquierda</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.left_calf }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Pantorilla Derecha</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.right_calf }} cm
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-100 odd:bg-white even:bg-gray-100 hover:bg-gray-200 hover:text-blue-700"
+        >
+          <td scope="row" class="px-4 py-2">Gluteos</td>
+          <td scope="row" class="px-4 py-2 text-right">
+            {{ measure.measures.glutes }} cm
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  } @else {
+    <app-skeleton />
+  }
+</main>

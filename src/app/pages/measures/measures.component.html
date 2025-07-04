@@ -1,0 +1,40 @@
+<main class="mt-6 px-4 md:mx-auto md:w-1/3">
+  @if (measures$ | async; as measures) {
+    <div class="mb-4">
+      <p-chart type="line" [data]="dataChart" [options]="optionsChart" />
+    </div>
+
+    @if (measures.length === 0) {
+      <div
+        class="flex h-28 items-center justify-center rounded-md border border-gray-200"
+      >
+        <p>No hay medidas</p>
+      </div>
+    }
+
+    @for (item of measures; track item.id) {
+      <div
+        class="mb-2 flex justify-between rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-sm"
+      >
+        <div class="flex gap-2">
+          <div>
+            <h1 class="text-center">{{ item.measures.weight }}</h1>
+            <p>Peso Corporal</p>
+          </div>
+          <div>
+            <h3 class="text-blue-700">
+              <a [routerLink]="['/measures', item.id]" href="#">
+                {{ item.created | date: "mediumDate" }}
+              </a>
+            </h3>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <ng-icon name="faSolidChevronRight" />
+        </div>
+      </div>
+    }
+  } @else {
+    <app-skeleton />
+  }
+</main>

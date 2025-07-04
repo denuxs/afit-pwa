@@ -1,0 +1,26 @@
+<div class="mb-4 flex flex-col items-center justify-center">
+  <p-image
+    [src]="user.photo ? user.photo : ''"
+    alt="user-{{ user.id }}]"
+    [preview]="true"
+    imageClass="h-28 w-28 rounded-full border border-gray-200 object-cover"
+  />
+  <input
+    type="file"
+    accept="image/*"
+    (change)="uploadImage($event, user)"
+    class="hidden"
+    #fileInput
+  />
+  <button
+    type="button"
+    (click)="fileInput.click()"
+    class="px-4 py-2 text-blue-700"
+  >
+    @if (user.photo) {
+      Cambiar imagen
+    } @else {
+      Subir imagen
+    }
+  </button>
+</div>

@@ -1,0 +1,67 @@
+<!-- <header class="bg-blue-700 px-4 py-4 text-white">
+  <div class="flex gap-4 md:container md:mx-auto">
+    <div>
+      <button class="text-white" (click)="visible = true">
+        <i class="pi pi-bars" style="font-size: 1.25rem"></i>
+      </button>
+    </div>
+    <div>
+      <h2 class="text-center text-white">{{ title }}</h2>
+    </div>
+  </div>
+</header> -->
+
+<header class="bg-blue-700 px-4 py-3 text-white">
+  <h2 class="text-center text-white">{{ title }}</h2>
+</header>
+
+@if (!isOnline) {
+  <div class="flex justify-center bg-yellow-100 py-2 text-sm text-gray-600">
+    Sin conexión a Internet
+  </div>
+}
+
+<!-- <div class="card flex justify-center">
+  <p-drawer #drawerRef [(visible)]="visible">
+    <ng-template #header>
+      <div class="flex items-center gap-2">
+        <p-avatar [image]="user.avatar" shape="circle" />
+        <div>
+          <h2>{{ user.fullname }}</h2>
+          <p class="text-sm text-gray-600">
+            {{ user.username }}
+          </p>
+        </div>
+      </div>
+    </ng-template>
+    <ul class="m-0">
+      @for (item of menus; track item.id) {
+        <li>
+          <a
+            [routerLink]="item.link"
+            routerLinkActive="active-tab"
+            [routerLinkActiveOptions]="{ exact: true }"
+            pRipple
+            class="p-ripple flex cursor-pointer items-center p-4 text-surface-700 transition-colors duration-150 rounded-border hover:bg-surface-100 dark:text-surface-100 dark:hover:bg-surface-700"
+          >
+            <ng-icon [name]="item.icon" class="mr-2" />
+            <p class="font-medium">{{ item.label }}</p>
+          </a>
+        </li>
+      }
+    </ul>
+    <ng-template #footer>
+      <div class="flex items-center gap-2">
+        <button
+          pButton
+          label="Cerrar Sesión"
+          icon="pi pi-sign-out"
+          class="w-full"
+          severity="danger"
+          text
+          (click)="logout()"
+        ></button>
+      </div>
+    </ng-template>
+  </p-drawer>
+</div> -->

@@ -1,0 +1,51 @@
+<input
+  type="file"
+  accept="image/*"
+  (change)="handleUploadImage($event)"
+  id="image"
+  name="image"
+  class="hidden"
+  #file
+/>
+
+@if (images$ | async; as data) {
+  <p-carousel
+    [value]="data"
+    [numVisible]="2"
+    [numScroll]="2"
+    [circular]="false"
+  >
+    <ng-template let-image #item>
+      <div class="relative mr-2">
+        <p-image
+          [src]="image.image"
+          alt="image-{{ image.id }}]"
+          [preview]="true"
+          appendTo="body"
+          styleClass="w-full h-40"
+          imageClass="w-full object-cover"
+        />
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          (onClick)="handleConfirmDelete(image.id)"
+          class="absolute right-0 top-0 text-white"
+        />
+      </div>
+    </ng-template>
+  </p-carousel>
+}
+
+<div
+  class="flex h-20 w-full items-center justify-center rounded-md border border-gray-200 bg-white"
+>
+  <button
+    type="button"
+    class="flex flex-col items-center justify-center text-blue-700"
+    (click)="file.click()"
+  >
+    <i class="pi pi-camera" style="font-size: 1.5rem"></i>
+    <span>Subir Imagen</span>
+  </button>
+</div>
+<p-confirmdialog />

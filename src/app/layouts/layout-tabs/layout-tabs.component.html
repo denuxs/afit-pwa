@@ -1,0 +1,23 @@
+<app-navbar />
+
+<router-outlet />
+
+<br /><br />
+<div
+  class="fixed bottom-0 left-0 z-50 h-14 w-full border-t border-gray-200 bg-white"
+>
+  <div class="mx-auto grid h-full max-w-lg" [ngClass]="gridClass">
+    @for (item of menus; track item.id) {
+      <button
+        [routerLink]="item.link"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
+        type="button"
+        class="inline-flex flex-col items-center justify-center px-4 hover:bg-gray-200 hover:text-blue-700"
+      >
+        <ng-icon [name]="item.icon" />
+        <span class="text-sm">{{ item.label }}</span>
+      </button>
+    }
+  </div>
+</div>

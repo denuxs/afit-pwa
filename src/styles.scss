@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "primeicons/primeicons.css";
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+// .poppins-regular {
+//   font-family: "Poppins", serif;
+//   font-weight: 400;
+//   font-style: normal;
+// }
+
+// .poppins-semibold {
+//   font-family: "Poppins", serif;
+//   font-weight: 600;
+//   font-style: normal;
+// }
+
+// .poppins-bold {
+//   font-family: "Poppins", serif;
+//   font-weight: 700;
+//   font-style: normal;
+// }
+
+// @font-face {
+//   font-family: "Poppins";
+//   src: url("/fonts/Poppins/Poppins.ttf");
+// }
+
+@layer base {
+  @font-face {
+    font-family: "Oswald";
+    src: url("/fonts/Oswald/static/Oswald-Regular.ttf");
+    font-weight: 400;
+    // font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Oswald";
+    src: url("/fonts/Oswald/static/Oswald-Medium.ttf");
+    font-weight: 500;
+    // font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Oswald";
+    src: url("/fonts/Oswald/static/Oswald-SemiBold.ttf");
+    font-weight: 600;
+    // font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Oswald";
+    src: url("/fonts/Oswald/static/Oswald-Bold.ttf");
+    font-weight: 700;
+    // font-style: normal;
+  }
+
+  body {
+    // font-family: "Oswald";
+    @apply bg-gray-100;
+  }
+}
+
+h1 {
+  @apply font-oswald text-3xl font-bold text-gray-800;
+}
+
+h2 {
+  @apply font-oswald text-2xl font-semibold;
+}
+
+h3 {
+  @apply font-oswald text-xl;
+}
+
+.active-tab {
+  @apply text-blue-700;
+}
+
+.btn-primary {
+  @apply w-full rounded-md bg-blue-600 px-5 py-2 font-bold text-white hover:bg-blue-700;
+}
+
+.form-label {
+  @apply mb-2 inline-block text-sm text-slate-600;
+}
+
+.cardx {
+  @apply rounded-xl bg-white px-8 py-4 md:shadow-md;
+}
+
+.form-input {
+  @apply mt-1 block w-full rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
+}
+
+.form-error {
+  @apply mt-2 text-sm text-red-600;
+}
+
+.ng-invalid.ng-touched {
+  @apply border-red-600;
+}
+
+.ng-valid {
+  @apply border-gray-600;
+}
+
+ol {
+  @apply list-inside list-decimal space-y-2;
+}
+
+.orange {
+  @apply bg-orange-600;
+}
+
+// html, body { height: 100%; }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
